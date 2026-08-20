@@ -82,11 +82,11 @@ body {
 
 .wrap { max-width: 900px; margin: 0 auto; }
 
-h1, h2, h3, .label, .step-num, .price, nav a, th, .os-switch button {
+h1, h2, h3, h4, .label, .step-num, .price, nav a, th, .os-switch button, .download-label, .role {
   font-family: Archivo, "Helvetica Neue", Arial, sans-serif;
 }
 
-code, kbd, .cmd {
+code, kbd, .cmd, .download-url {
   font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
 }
 
@@ -210,7 +210,7 @@ nav a:hover, nav a:focus-visible { color: var(--ink); border-bottom-color: var(-
 
 /* ---------- секции ---------- */
 
-section { margin-bottom: 72px; scroll-margin-top: 68px; }
+section { margin-bottom: 76px; scroll-margin-top: 68px; }
 
 h2 {
   font-size: clamp(26px, 3.6vw, 34px);
@@ -227,12 +227,7 @@ h2 + .sub {
   margin: 0 0 36px;
 }
 
-h3 {
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: -.01em;
-  margin: 0;
-}
+h3 { font-size: 19px; font-weight: 600; letter-spacing: -.01em; margin: 0; }
 
 p { max-width: 68ch; }
 
@@ -247,7 +242,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   display: grid;
   grid-template-columns: 56px 1fr;
   gap: 0 20px;
-  padding: 26px 0;
+  padding: 30px 0;
   border-top: 1px solid var(--rule);
 }
 
@@ -282,22 +277,89 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 
 .tag.must { background: var(--accent-wash); color: var(--accent-ink); }
 
-.step p { margin: 0 0 12px; color: var(--ink-soft); }
+.step > div > p { margin: 0 0 14px; color: var(--ink-soft); }
 .step p strong { color: var(--ink); font-weight: 600; }
-.step p:last-child, .step .cmd:last-child, .step ol:last-child { margin-bottom: 0; }
 
-.step ol {
-  margin: 0 0 14px;
+/* крупная кнопка скачивания — первое, что видно в шаге */
+
+.download {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 14px 18px;
+  margin: 0 0 18px;
+  background: var(--surface);
+  border: 1.5px solid var(--accent);
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  transition: background .12s ease;
+}
+.download:hover { background: var(--accent-wash); }
+.download + .download { margin-top: -6px; }
+
+.download-label { font-size: 15px; font-weight: 600; color: var(--ink); }
+.download-label::after { content: " →"; color: var(--accent); }
+.download-url { font-size: 13px; color: var(--accent-ink); word-break: break-all; }
+
+/* два пути: простой и продвинутый */
+
+.way { margin: 0 0 16px; }
+
+.way h4 {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 10px;
+}
+
+.way ol {
+  margin: 0;
   padding-left: 20px;
   color: var(--ink-soft);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 9px;
   max-width: 68ch;
 }
-.step ol li::marker { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--accent); }
-.step ol strong { color: var(--ink); font-weight: 600; }
-.step ol .cmd { margin-top: 8px; }
+.way ol li::marker { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--accent); }
+.way ol strong { color: var(--ink); font-weight: 600; }
+.way ol p { margin: 8px 0 0; }
+
+details.pro {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--surface-2);
+  padding: 0;
+  margin: 0 0 16px;
+  max-width: 68ch;
+}
+
+details.pro summary {
+  cursor: pointer;
+  padding: 11px 16px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+details.pro summary::-webkit-details-marker { display: none; }
+details.pro summary::before {
+  content: "+";
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  color: var(--accent);
+}
+details.pro[open] summary::before { content: "–"; }
+details.pro summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 6px; }
+details.pro .pro-body { padding: 0 16px 14px; }
+details.pro .pro-body p { font-size: 15px; margin: 0 0 10px; }
+details.pro .cmd { background: var(--surface); }
 
 .cmd {
   display: block;
@@ -311,32 +373,55 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   margin: 0 0 12px;
   color: var(--ink);
 }
-
+.cmd:last-child { margin-bottom: 0; }
 .cmd b { color: var(--accent-ink); font-weight: 400; }
-
-.dl {
-  display: inline-block;
-  font-family: Archivo, sans-serif;
-  font-size: 13.5px;
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--ink);
-  border-bottom: 2px solid var(--accent);
-  padding-bottom: 1px;
-  margin-right: 18px;
-}
-.dl:hover { color: var(--accent-ink); }
-.dl::after { content: " ↗"; font-weight: 500; color: var(--accent); }
 
 .result {
   border-left: 2px solid var(--pro);
   padding: 2px 0 2px 14px;
   font-size: 15.5px;
   color: var(--ink-soft);
-  margin: 0 0 14px;
+  margin: 0;
   max-width: 68ch;
 }
 .result strong { color: var(--pro); font-weight: 600; }
+
+/* ---------- аккаунты ---------- */
+
+.accounts { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+.account {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.account p { font-size: 15px; color: var(--ink-soft); margin: 0; }
+.account ul { margin: 0; padding-left: 18px; font-size: 15px; color: var(--ink-soft); display: flex; flex-direction: column; gap: 6px; }
+.account ul li::marker { color: var(--accent); }
+
+/* ---------- позже вместе ---------- */
+
+.later { display: flex; flex-direction: column; gap: 0; }
+
+.later-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) 1fr;
+  gap: 4px 22px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.later-row:first-child { border-top: 1px solid var(--rule); }
+.later-row .name { font-family: Archivo, sans-serif; font-weight: 600; font-size: 15.5px; }
+.later-row .desc { font-size: 15px; color: var(--ink-soft); }
+
+@media (max-width: 620px) {
+  .later-row { grid-template-columns: 1fr; gap: 2px; }
+}
 
 /* ---------- карточки моделей ---------- */
 
@@ -356,10 +441,10 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 .card.pick { border-color: var(--accent); border-width: 1.5px; }
 
 .role {
-  font-family: "JetBrains Mono", monospace;
   font-size: 10.5px;
   letter-spacing: .1em;
   text-transform: uppercase;
+  font-weight: 600;
   color: var(--accent-ink);
   background: var(--accent-wash);
   padding: 4px 9px;
@@ -400,11 +485,25 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 .specs .k { color: var(--ink-soft); }
 .specs .v { font-family: "JetBrains Mono", monospace; font-size: 12.5px; text-align: right; }
 
+.dl {
+  display: inline-block;
+  font-family: Archivo, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 1px;
+  margin-right: 18px;
+}
+.dl:hover { color: var(--accent-ink); }
+.dl::after { content: " ↗"; font-weight: 500; color: var(--accent); }
+
 /* ---------- таблица ---------- */
 
 .table-scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
 
-table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 640px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 620px; }
 
 th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
 
@@ -522,37 +621,32 @@ footer {
 <header>
   <p class="label">Подготовительный этап</p>
   <h1>Стартовый набор вайб-кодера</h1>
-  <p class="deck">Что поставить на компьютер и какими нейросетями будем работать. Всё делается внутри одной программы — VS Code: там и редактор, и терминал, и AI-агент.</p>
+  <p class="deck">Четыре программы, которые нужно поставить самому, и два аккаунта, которые нужно завести. Всё мышкой, без терминала — команды приложены отдельно, для тех, кому интересно сразу.</p>
   <div class="meta">
     <span class="os-switch">
       <button type="button" data-os="mac">macOS</button>
       <button type="button" data-os="win">Windows</button>
     </span>
-    <span>Время установки: ~1 час</span>
+    <span>Время: ~40 минут</span>
     <span>Обновлено: август 2026</span>
   </div>
 </header>
 
 <nav>
   <a href="#install">Установка</a>
-  <a href="#check">Проверка</a>
+  <a href="#accounts">Аккаунты</a>
+  <a href="#later">Дальше вместе</a>
   <a href="#models">Чем работаем</a>
   <a href="#compare">Сравнение</a>
   <a href="#choose">Связки</a>
-  <a href="#first">Первый проект</a>
   <a href="#pitfalls">Ошибки</a>
   <a href="#links">Все ссылки</a>
 </nav>
 
 <section id="install">
-  <h2>Что установить</h2>
-  <p class="sub only-mac">Инструкции для macOS, по шагам сверху вниз. Каждый шаг заканчивается проверкой — не переходи к следующему, пока текущий не дал ожидаемый результат. Переключатель в шапке меняет инструкции на Windows.</p>
-  <p class="sub only-win">Инструкции для Windows 10/11, по шагам сверху вниз. Каждый шаг заканчивается проверкой — не переходи к следующему, пока текущий не дал ожидаемый результат. Переключатель в шапке меняет инструкции на macOS.</p>
-
-  <div class="note">
-    <p><strong>Всё живёт внутри VS Code.</strong> Редактор, терминал, Git, Docker и AI-агент — одно окно, переключаться между программами не придётся. Встроенный терминал открывается сочетанием <kbd>Ctrl</kbd> + <kbd>`</kbd> (клавиша с буквой «ё»), и все команды с этой страницы вводятся именно туда.</p>
-    <p><strong>Три главные вещи — VPN, VS Code и Docker.</strong> Остальное обвязка: ставится быстро и почти без вопросов.</p>
-  </div>
+  <h2>Что установить самому</h2>
+  <p class="sub only-mac">Пять программ, по порядку сверху вниз. В каждом пункте сначала ссылка, потом простая инструкция мышкой. Под ней спрятан короткий путь через терминал — <strong>открывать не обязательно</strong>, это для тех, кто хочет сразу разобраться. Переключатель в шапке меняет инструкции на Windows.</p>
+  <p class="sub only-win">Пять программ, по порядку сверху вниз. В каждом пункте сначала ссылка, потом простая инструкция мышкой. Под ней спрятан короткий путь через терминал — <strong>открывать не обязательно</strong>, это для тех, кто хочет сразу разобраться. Переключатель в шапке меняет инструкции на macOS.</p>
 
   <div class="steps">
 
@@ -560,80 +654,101 @@ footer {
       <div class="step-num">01</div>
       <div>
         <div class="step-head">
-          <h3>Happ — VPN-клиент</h3>
+          <h3>Happ — VPN</h3>
           <span class="tag must">обязательно</span>
-          <span class="tag">доступ</span>
         </div>
-        <p>Ставим первым: без него не пройдёт всё остальное. Сайты и API OpenAI и Anthropic из России не открываются, часть сервисов GitHub — тоже. <strong>Нужен VPN, который работает постоянно, а не «пять минут в день»</strong> — иначе AI-агент оборвётся посреди задачи.</p>
-        <p>Приложение бесплатное, платишь только за подписку на сервер. <strong>Ставь Happ и на компьютер, и на телефон</strong> — подписка одна, работает на обоих.</p>
+        <p>Ставим первым: без него не пройдёт всё остальное. Сайты OpenAI и Anthropic из России не открываются, часть сервисов GitHub — тоже. <strong>Нужен VPN, который работает постоянно</strong>, а не «пять минут в день», иначе AI-агент оборвётся посреди задачи.</p>
 
         <div class="only-mac">
-          <ol>
-            <li>Скачай <strong>Happ для macOS</strong> — файл <code>Happ.macOS.universal.dmg</code>, подходит и для Apple Silicon, и для Intel.</li>
-            <li>Открой скачанный <code>.dmg</code> и перетащи <strong>Happ</strong> в папку <strong>Applications</strong>.</li>
-            <li>Первый запуск — <strong>правой кнопкой по значку → «Открыть»</strong>, затем ещё раз «Открыть» в предупреждении. Через двойной клик macOS не пустит незнакомое приложение.</li>
-            <li>Разреши добавить конфигурацию VPN — система попросит пароль или Touch ID.</li>
-            <li>Нажми <strong>«+»</strong> и вставь ссылку-подписку, которую я пришлю. Выбери сервер и включи тумблер.</li>
-          </ol>
-          <p><strong>На iPhone и iPad</strong> — то же приложение из App Store, подписка вставляется точно так же.</p>
+          <a class="download" href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.macOS.universal.dmg">
+            <span class="download-label">Скачать Happ для Mac</span>
+            <span class="download-url">Happ.macOS.universal.dmg</span>
+          </a>
+          <a class="download" href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215">
+            <span class="download-label">Happ для iPhone и iPad</span>
+            <span class="download-url">App Store</span>
+          </a>
+
+          <div class="way">
+            <h4>Как установить</h4>
+            <ol>
+              <li>Открой скачанный файл <code>Happ.macOS.universal.dmg</code> двойным щелчком.</li>
+              <li>В открывшемся окне <strong>перетащи значок Happ в папку Applications</strong>.</li>
+              <li>Открой Launchpad и найди Happ. <strong>Нажми на значок правой кнопкой → «Открыть»</strong>, потом ещё раз «Открыть» в предупреждении. Обычный двойной щелчок macOS заблокирует — так система относится к незнакомым приложениям.</li>
+              <li>Разреши добавить конфигурацию VPN — попросит пароль от Mac или Touch ID.</li>
+              <li>Нажми <strong>«+»</strong> и вставь ссылку-подписку, которую я пришлю. Выбери сервер и включи тумблер.</li>
+            </ol>
+          </div>
+
+          <p>То же приложение поставь на телефон — подписка одна, работает на всех устройствах сразу.</p>
         </div>
 
         <div class="only-win">
-          <ol>
-            <li>Скачай <strong>Happ для Windows</strong> с сайта happ.info и запусти установщик.</li>
-            <li>Разреши приложению добавить конфигурацию VPN.</li>
-            <li>Нажми <strong>«+»</strong> и вставь ссылку-подписку, которую я пришлю. Выбери сервер и включи тумблер.</li>
-          </ol>
-          <p><strong>На iPhone и Android</strong> — то же приложение из App Store и Google Play, подписка одна на все устройства.</p>
+          <a class="download" href="https://happ.info/">
+            <span class="download-label">Скачать Happ для Windows</span>
+            <span class="download-url">happ.info</span>
+          </a>
+
+          <div class="way">
+            <h4>Как установить</h4>
+            <ol>
+              <li>На сайте выбери кнопку <strong>Windows</strong> и скачай установщик.</li>
+              <li>Запусти его и прокликай по умолчанию.</li>
+              <li>Разреши приложению добавить конфигурацию VPN.</li>
+              <li>Нажми <strong>«+»</strong> и вставь ссылку-подписку, которую я пришлю. Выбери сервер и включи тумблер.</li>
+            </ol>
+          </div>
         </div>
 
         <p>Ссылку-подписку пришлю отдельно. Бесплатные публичные VPN из рекламы не бери: они медленные и торгуют твоим трафиком. Запасной вариант, если Happ не подойдёт, — <a href="https://getoutline.org/get-started/">Outline</a>.</p>
-        <p class="result"><strong>Проверка:</strong> открой <a href="https://chatgpt.com">chatgpt.com</a> и <a href="https://claude.ai">claude.ai</a> — обе страницы должны загрузиться.</p>
-        <a class="dl only-mac" href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.macOS.universal.dmg">Скачать Happ для macOS</a>
-        <a class="dl" href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215">Happ для iPhone и iPad</a>
-        <a class="dl" href="https://happ.info/">happ.info</a>
+        <p class="result"><strong>Проверка:</strong> открой <a href="https://chatgpt.com">chatgpt.com</a> — страница должна загрузиться.</p>
       </div>
     </article>
 
-    <article class="step only-mac">
+    <article class="step">
       <div class="step-num">02</div>
       <div>
         <div class="step-head">
-          <h3>Терминал и Homebrew</h3>
+          <h3>Visual Studio Code</h3>
           <span class="tag must">обязательно</span>
-          <span class="tag">фундамент</span>
         </div>
-        <p>Homebrew — пакетный менеджер для macOS. Через него всё остальное ставится одной командой, без хождения по сайтам и перетаскивания иконок. На Mac это самый короткий путь.</p>
-        <ol>
-          <li>Нажми <kbd>Cmd</kbd> + <kbd>пробел</kbd>, набери «Терминал», <kbd>Enter</kbd>.</li>
-          <li>Скопируй команду целиком, вставь в терминал, нажми <kbd>Enter</kbd>:
-            <code class="cmd">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code>
-          </li>
-          <li>Введи пароль от Mac. <strong>Символы при вводе не отображаются</strong> — это нормально, просто печатай и жми <kbd>Enter</kbd>.</li>
-          <li>Ещё раз <kbd>Enter</kbd> для подтверждения. Дальше 5–15 минут ожидания: подтянутся Xcode Command Line Tools, без них не работает Git.</li>
-          <li>В конце Homebrew напечатает блок <strong>«Next steps»</strong> с двумя командами. <strong>Их обязательно нужно выполнить</strong> — иначе система не найдёт <code>brew</code>. Для Mac на Apple Silicon это:
-            <code class="cmd">echo >> ~/.zprofile
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"</code>
-          </li>
-          <li>Закрой терминал и открой заново.</li>
-        </ol>
-        <p class="result"><strong>Проверка:</strong> команда <code>brew --version</code> отвечает номером версии, а не <code>command not found</code>.</p>
-        <a class="dl" href="https://brew.sh">brew.sh</a>
-      </div>
-    </article>
+        <p>Главная программа, в которой будем работать. Здесь ты пишешь код, здесь же живут AI-агенты. Бесплатная. <strong>Не путай с Visual Studio</strong> — это другая, тяжёлая программа для C#.</p>
 
-    <article class="step only-win">
-      <div class="step-num">02</div>
-      <div>
-        <div class="step-head">
-          <h3>Windows Terminal</h3>
-          <span class="tag must">обязательно</span>
-          <span class="tag">фундамент</span>
+        <a class="download" href="https://code.visualstudio.com/download">
+          <span class="download-label">Скачать VS Code</span>
+          <span class="download-url">code.visualstudio.com/download</span>
+        </a>
+
+        <div class="way only-mac">
+          <h4>Как установить</h4>
+          <ol>
+            <li>На странице нажми большую кнопку <strong>«Mac Universal»</strong> — она подходит и для M1–M4, и для старых Intel.</li>
+            <li>Скачается архив. Открой его двойным щелчком — появится приложение <strong>Visual Studio Code</strong>.</li>
+            <li><strong>Перетащи его в папку Applications</strong>, иначе при каждом обновлении будет ругаться.</li>
+            <li>Запусти. Если macOS спросит «вы уверены» — нажми «Открыть».</li>
+            <li>Слева в меню нажми на значок с квадратиками (<strong>Extensions</strong>), найди <strong>Russian Language Pack</strong> и установи, если хочешь русский интерфейс. Не обязательно.</li>
+          </ol>
         </div>
-        <p>Нормальный терминал вместо древней «Командной строки»: вкладки, копипаст, поддержка кириллицы. В Windows 11 уже встроен — просто проверь обновления в Microsoft Store. Открывается через <kbd>Win</kbd> + <kbd>X</kbd> → «Терминал».</p>
-        <p class="result"><strong>Проверка:</strong> терминал открывается и печатает приглашение вида <code>PS C:\Users\…&gt;</code></p>
-        <a class="dl" href="https://apps.microsoft.com/detail/9n0dx20hk701">Windows Terminal в Microsoft Store</a>
+
+        <div class="way only-win">
+          <h4>Как установить</h4>
+          <ol>
+            <li>На странице нажми кнопку <strong>Windows</strong> — скачается <code>VSCodeUserSetup-x64.exe</code>.</li>
+            <li>Запусти установщик. На шаге «Выберите дополнительные задачи» <strong>поставь галочку «Add to PATH»</strong> — она нужна дальше.</li>
+            <li>Дождись конца установки и запусти VS Code.</li>
+            <li>Слева в меню нажми на значок с квадратиками (<strong>Extensions</strong>), найди <strong>Russian Language Pack</strong> и установи, если хочешь русский интерфейс. Не обязательно.</li>
+          </ol>
+        </div>
+
+        <details class="pro only-mac">
+          <summary>Короткий путь через терминал — не обязательно</summary>
+          <div class="pro-body">
+            <p>Если уже стоит Homebrew, вся установка — одна строка:</p>
+            <code class="cmd">brew install --cask visual-studio-code</code>
+          </div>
+        </details>
+
+        <p class="result"><strong>Проверка:</strong> VS Code открывается и показывает стартовый экран.</p>
       </div>
     </article>
 
@@ -641,33 +756,50 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code>
       <div class="step-num">03</div>
       <div>
         <div class="step-head">
-          <h3>Visual Studio Code</h3>
+          <h3>Docker Desktop</h3>
           <span class="tag must">обязательно</span>
-          <span class="tag">рабочая среда</span>
         </div>
-        <p>Главная программа. Здесь ты пишешь код, здесь же терминал, Git и AI-агент. Бесплатный, самый распространённый редактор — под него есть всё. <strong>Не путай с Visual Studio</strong>: это другая, тяжёлая среда для C#.</p>
+        <p>Docker запускает базы данных, серверы и чужие проекты в отдельных «коробках» — <strong>не засоряя систему и не ломая то, что уже стоит</strong>. Дойдём до баз данных — вместо часа установок будет одна команда. Ставим заранее: качается долго, файл тяжёлый.</p>
 
-        <div class="only-mac">
-          <p>Через Homebrew — одна команда:</p>
-          <code class="cmd">brew install --cask visual-studio-code</code>
-          <p>Или вручную: на сайте нажми <strong>«Mac Universal»</strong>, распакуй архив и перетащи <strong>Visual Studio Code</strong> в папку <strong>Applications</strong>.</p>
-          <p>Дальше две настройки, обе нужны:</p>
+        <a class="download" href="https://www.docker.com/products/docker-desktop/">
+          <span class="download-label">Скачать Docker Desktop</span>
+          <span class="download-url">docker.com/products/docker-desktop</span>
+        </a>
+
+        <div class="way only-mac">
+          <h4>Как установить</h4>
           <ol>
-            <li>Запусти VS Code, нажми <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, набери <code>shell command</code> и выбери <strong>«Install 'code' command in PATH»</strong>. После этого любую папку можно открыть из терминала командой <code>code .</code></li>
-            <li>Открой встроенный терминал: <kbd>Ctrl</kbd> + <kbd>`</kbd>. Это твоё основное рабочее место — все команды дальше вводятся сюда.</li>
+            <li>На сайте нажми <strong>«Download for Mac – Apple Silicon»</strong>, если у тебя M1, M2, M3 или M4. Если Mac старый, на процессоре Intel — соседнюю кнопку «Intel Chip».
+              <p>Посмотреть, какой у тебя процессор: <strong>значок Apple в левом верхнем углу → «Об этом Mac»</strong>.</p>
+            </li>
+            <li>Открой скачанный <code>Docker.dmg</code> и <strong>перетащи Docker в папку Applications</strong>.</li>
+            <li>Запусти Docker из Launchpad, прими условия.</li>
+            <li>Он попросит пароль от Mac, чтобы доустановить служебную часть — введи.</li>
+            <li>Дождись, пока <strong>значок кита в верхней строке перестанет мигать</strong>. Мигает — значит, ещё запускается.</li>
           </ol>
         </div>
 
-        <div class="only-win">
+        <div class="way only-win">
+          <h4>Как установить</h4>
           <ol>
-            <li>Скачай <strong>User Installer для Windows x64</strong>.</li>
-            <li>При установке поставь галочки <strong>«Add to PATH»</strong> и «Открывать через контекстное меню».</li>
-            <li>Запусти VS Code и открой встроенный терминал: <kbd>Ctrl</kbd> + <kbd>`</kbd>. Это твоё основное рабочее место.</li>
+            <li>Нажми <strong>«Download for Windows»</strong> и запусти установщик.</li>
+            <li>Он предложит включить <strong>WSL 2</strong> — соглашайся.</li>
+            <li>Перезагрузи компьютер, когда попросит.</li>
+            <li>Запусти Docker Desktop и дождись надписи <strong>«Engine running»</strong> внизу окна.</li>
           </ol>
         </div>
 
-        <p class="result"><strong>Проверка:</strong> VS Code открыт, внизу видна панель терминала, команда <code>code --version</code> в нём отвечает номером версии.</p>
-        <a class="dl" href="https://code.visualstudio.com/download">code.visualstudio.com/download</a>
+        <details class="pro only-mac">
+          <summary>Короткий путь через терминал — не обязательно</summary>
+          <div class="pro-body">
+            <p>Homebrew сам подберёт нужную сборку под процессор:</p>
+            <code class="cmd">brew install --cask docker</code>
+            <p>Проверить, что всё работает:</p>
+            <code class="cmd">docker run hello-world</code>
+          </div>
+        </details>
+
+        <p class="result"><strong>Проверка:</strong> Docker Desktop запущен, кит не мигает, в окне видна вкладка «Containers».</p>
       </div>
     </article>
 
@@ -675,35 +807,50 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code>
       <div class="step-num">04</div>
       <div>
         <div class="step-head">
-          <h3>Docker Desktop</h3>
+          <h3>Python</h3>
           <span class="tag must">обязательно</span>
-          <span class="tag">окружения</span>
         </div>
-        <p>Docker запускает базы данных, серверы и чужие проекты в изолированных контейнерах — <strong>не засоряя систему и не ломая то, что уже стоит</strong>. Дойдём до PostgreSQL, Redis или чужого репозитория — вместо часа установок будет одна команда. Ставим заранее: качается долго и должен работать в фоне.</p>
+        <p>Язык, на котором пишут автоматизацию, парсеры, обработку данных и всё, что связано с нейросетями. Ставим сам язык и расширение к нему в VS Code — дальше запускать программы можно будет одной кнопкой.</p>
 
-        <div class="only-mac">
-          <p>Через Homebrew — он сам выберет сборку под твой процессор:</p>
-          <code class="cmd">brew install --cask docker</code>
-          <p>Если ставишь вручную с сайта — <strong>для Mac на M1–M4 жми кнопку «Download for Mac – Apple Silicon»</strong>. Intel-версия на них тоже пойдёт, но заметно медленнее.</p>
+        <a class="download only-mac" href="https://www.python.org/downloads/macos/">
+          <span class="download-label">Скачать Python для Mac</span>
+          <span class="download-url">python.org/downloads/macos</span>
+        </a>
+        <a class="download only-win" href="https://www.python.org/downloads/windows/">
+          <span class="download-label">Скачать Python для Windows</span>
+          <span class="download-url">python.org/downloads/windows</span>
+        </a>
+
+        <div class="way only-mac">
+          <h4>Как установить</h4>
           <ol>
-            <li>Запусти <strong>Docker Desktop</strong> из Launchpad.</li>
-            <li>Разреши установку служебного компонента — попросит пароль от Mac.</li>
-            <li>Прими условия и дождись, пока значок кита в верхней строке перестанет мигать.</li>
+            <li>На странице выбери <strong>последний стабильный выпуск 3.12 или новее</strong> и скачай файл с названием вида <code>macOS 64-bit universal2 installer</code>.</li>
+            <li>Открой скачанный <code>.pkg</code> и прокликай установщик по умолчанию.</li>
+            <li>В конце он откроет папку с файлами — можно просто закрыть её.</li>
+            <li>Открой VS Code → <strong>Extensions</strong> (значок с квадратиками слева) → найди расширение <strong>Python от Microsoft</strong> → Install.</li>
           </ol>
         </div>
 
-        <div class="only-win">
+        <div class="way only-win">
+          <h4>Как установить</h4>
           <ol>
-            <li>Скачай <strong>Docker Desktop for Windows</strong> и запусти установщик.</li>
-            <li>Он предложит включить <strong>WSL 2</strong> — соглашайся и перезагрузи компьютер.</li>
-            <li>Запусти Docker Desktop и дождись статуса <strong>«Engine running»</strong> внизу окна.</li>
+            <li>Скачай <strong>Windows installer (64-bit)</strong> последней версии 3.12 или новее.</li>
+            <li>Запусти его и <strong>в первом же окне поставь галочку «Add python.exe to PATH»</strong>. Это самая частая ошибка новичков — без галочки Python придётся переустанавливать.</li>
+            <li>Нажми «Install Now» и дождись конца.</li>
+            <li>Открой VS Code → <strong>Extensions</strong> (значок с квадратиками слева) → найди расширение <strong>Python от Microsoft</strong> → Install.</li>
           </ol>
         </div>
 
-        <p>Проверочная команда во встроенном терминале VS Code — скачает и запустит тестовый контейнер:</p>
-        <code class="cmd">docker run hello-world</code>
-        <p class="result"><strong>Проверка:</strong> в ответ приходит «Hello from Docker!». Если пишет «Cannot connect to the Docker daemon» — Docker Desktop просто не запущен.</p>
-        <a class="dl" href="https://www.docker.com/products/docker-desktop/">docker.com — Docker Desktop</a>
+        <details class="pro only-mac">
+          <summary>Короткий путь через терминал — не обязательно</summary>
+          <div class="pro-body">
+            <p>Через Homebrew:</p>
+            <code class="cmd">brew install python</code>
+            <p>На Mac команда называется <code>python3</code>, а не <code>python</code> — так и должно быть. Системный Python трогать нельзя.</p>
+          </div>
+        </details>
+
+        <p class="result"><strong>Проверка:</strong> в VS Code создай файл <code>test.py</code>, напиши в нём <code>print("привет")</code> и нажми кнопку ▶ в правом верхнем углу. Внизу должно появиться слово «привет».</p>
       </div>
     </article>
 
@@ -711,185 +858,122 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code>
       <div class="step-num">05</div>
       <div>
         <div class="step-head">
-          <h3>Git</h3>
-          <span class="tag must">обязательно</span>
-          <span class="tag">история версий</span>
-        </div>
-        <p>Система контроля версий: сохраняет каждый шаг проекта и позволяет откатиться, если нейросеть что-то сломала. Без Git вайб-кодинг превращается в рулетку — <strong>это твоя кнопка «отменить» для всего проекта целиком</strong>.</p>
-        <div class="only-mac">
-          <p>В macOS есть старая встроенная версия, ставим свежую:</p>
-          <code class="cmd">brew install git</code>
-        </div>
-        <div class="only-win">
-          <p>Скачай установщик и прокликай его по умолчанию — ничего менять не нужно.</p>
-        </div>
-        <p>После установки один раз представься Git — подставь своё имя и почту:</p>
-        <code class="cmd">git config --global user.name "Ivan Petrov"
-git config --global user.email "ivan@example.com"</code>
-        <p class="result"><strong>Проверка:</strong> <code>git --version</code> отвечает номером версии.</p>
-        <a class="dl only-mac" href="https://git-scm.com/download/mac">git-scm.com/download/mac</a>
-        <a class="dl only-win" href="https://git-scm.com/download/win">git-scm.com/download/win</a>
-      </div>
-    </article>
-
-    <article class="step">
-      <div class="step-num">06</div>
-      <div>
-        <div class="step-head">
-          <h3>Node.js (версия LTS)</h3>
-          <span class="tag must">обязательно</span>
-          <span class="tag">движок + npm</span>
-        </div>
-        <p>Нужен по двум причинам: на нём работает почти вся веб-разработка, и через его пакетный менеджер <code>npm</code> ставятся AI-агенты. Бери версию с пометкой <strong>LTS</strong>, не «Current».</p>
-        <div class="only-mac">
-          <code class="cmd">brew install node</code>
-        </div>
-        <div class="only-win">
-          <p>Скачай <strong>Windows Installer (.msi) 64-bit</strong> с пометкой LTS и прокликай по умолчанию.</p>
-        </div>
-        <p class="result"><strong>Проверка:</strong> <code>node -v</code> и <code>npm -v</code> отвечают номерами версий.</p>
-        <a class="dl" href="https://nodejs.org/en/download">nodejs.org/en/download</a>
-      </div>
-    </article>
-
-    <article class="step">
-      <div class="step-num">07</div>
-      <div>
-        <div class="step-head">
-          <h3>Python 3.12+</h3>
-          <span class="tag must">обязательно</span>
-          <span class="tag">скрипты, парсеры, AI</span>
-        </div>
-        <p>Язык, на котором пишут автоматизацию, парсеры, обработку данных и всё, что связано с нейросетями.</p>
-        <div class="only-mac">
-          <code class="cmd">brew install python</code>
-          <p>На Mac команда называется <code>python3</code>, а не <code>python</code> — так и должно быть. Системный Python трогать нельзя, пользуемся тем, что поставил Homebrew.</p>
-          <p class="result"><strong>Проверка:</strong> <code>python3 --version</code> отвечает <code>Python 3.12</code> или выше.</p>
-        </div>
-        <div class="only-win">
-          <p>Скачай установщик и <strong>в первом же окне поставь галочку «Add python.exe to PATH»</strong> — иначе система его не найдёт и придётся переустанавливать.</p>
-          <p class="result"><strong>Проверка:</strong> <code>python --version</code> отвечает <code>Python 3.12</code> или выше.</p>
-        </div>
-        <a class="dl only-mac" href="https://www.python.org/downloads/macos/">python.org/downloads/macos</a>
-        <a class="dl only-win" href="https://www.python.org/downloads/windows/">python.org/downloads/windows</a>
-      </div>
-    </article>
-
-    <article class="step">
-      <div class="step-num">08</div>
-      <div>
-        <div class="step-head">
-          <h3>Почта Gmail</h3>
-          <span class="tag must">обязательно</span>
-          <span class="tag">вход везде</span>
-        </div>
-        <p>Отдельный почтовый ящик под разработку. Нужен обязательно: <strong>на российскую почту многие сервисы просто не регистрируют</strong> — OpenAI, Anthropic и часть зарубежных инструментов отказывают ящикам на mail.ru и яндексе. Плюс Gmail — это готовый вход в Google-сервисы одной кнопкой.</p>
-        <ol>
-          <li>Заводи <strong>новый ящик, а не рабочий</strong> — пусть учебное и личное не смешиваются.</li>
-          <li>Регистрируйся <strong>с включённым VPN</strong>, иначе Google может привязать аккаунт к российскому региону.</li>
-          <li>Сразу включи двухфакторную защиту и запиши пароль — на этот ящик завяжутся все подписки.</li>
-        </ol>
-        <p class="result"><strong>Проверка:</strong> письмо, отправленное самому себе, доходит.</p>
-        <a class="dl" href="https://accounts.google.com/signup">accounts.google.com/signup</a>
-      </div>
-    </article>
-
-    <article class="step">
-      <div class="step-num">09</div>
-      <div>
-        <div class="step-head">
-          <h3>Аккаунт GitHub</h3>
-          <span class="tag must">обязательно</span>
-          <span class="tag">облако для кода</span>
-        </div>
-        <p>Бесплатное хранилище проектов в облаке. Нужно и как резервная копия, и как портфолио, и как вход в кучу сервисов — многие AI-инструменты логинятся через него.</p>
-        <ol>
-          <li>Зарегистрируйся на <a href="https://github.com/signup">github.com/signup</a> — на тот самый Gmail из шага 8.</li>
-          <li>Придумай нормальное имя пользователя — оно будет видно в ссылках на твои проекты.</li>
-          <li>В VS Code нажми на значок человечка внизу слева и войди в аккаунт GitHub.</li>
-        </ol>
-        <p class="result"><strong>Проверка:</strong> в VS Code внизу слева отображается твой ник GitHub.</p>
-        <a class="dl" href="https://github.com/signup">github.com/signup</a>
-      </div>
-    </article>
-
-    <article class="step">
-      <div class="step-num">10</div>
-      <div>
-        <div class="step-head">
-          <h3>OpenAI Codex</h3>
-          <span class="tag must">обязательно</span>
-          <span class="tag">наш основной агент</span>
-        </div>
-        <p>Инструмент, с которого мы начнём работать. Ставится последним: ему нужны Node.js из шага 6 и работающий VPN из шага 1. Это не автодополнение, а <strong>агент</strong>: сам читает проект, создаёт и правит файлы, запускает команды и проверяет результат.</p>
-        <ol>
-          <li>Оформи подписку <strong>ChatGPT Plus</strong> на <a href="https://chatgpt.com">chatgpt.com</a> — Codex входит в неё.</li>
-          <li>Установи расширение: в VS Code открой панель <strong>Extensions</strong> (<kbd>Cmd</kbd>/<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>), найди <strong>Codex</strong>, нажми Install.</li>
-          <li>Либо поставь консольную версию во встроенном терминале:
-            <code class="cmd">npm install -g @openai/codex</code>
-          </li>
-          <li>Запусти командой <code>codex</code> и войди в аккаунт OpenAI.</li>
-        </ol>
-        <p class="result"><strong>Проверка:</strong> команда <code>codex</code> запускается и просит задачу.</p>
-        <a class="dl" href="https://developers.openai.com/codex/">developers.openai.com/codex</a>
-      </div>
-    </article>
-
-    <article class="step">
-      <div class="step-num">11</div>
-      <div>
-        <div class="step-head">
-          <h3>Claude Code</h3>
+          <h3 class="only-mac">superwhisper — диктовка голосом</h3>
+          <h3 class="only-win">Диктовка голосом</h3>
           <span class="tag">рекомендую</span>
-          <span class="tag">второй агент</span>
         </div>
-        <p>Ставим следом за Codex. На сложных многофайловых задачах держит проект в голове лучше всех — <strong>я работаю в основном на нём</strong>. Требует отдельной подписки Claude.</p>
-        <code class="cmd">npm install -g @anthropic-ai/claude-code</code>
-        <p>Дальше заходишь в папку проекта, пишешь <code>claude</code> и логинишься подпиской. Расширение для VS Code ставится из панели Extensions по запросу «Claude Code».</p>
-        <p class="result"><strong>Проверка:</strong> команда <code>claude</code> запускается и просит задачу.</p>
-        <a class="dl" href="https://docs.claude.com/en/docs/claude-code/overview">docs.claude.com — Claude Code</a>
+
+        <div class="only-mac">
+          <p>Приложение, которое превращает речь в текст в любом окне: нажал горячую клавишу, надиктовал задачу агенту — получил готовый текст. <strong>Задачи для AI удобнее наговаривать, чем печатать</strong>: длинное описание голосом занимает секунд двадцать вместо трёх минут.</p>
+          <p>Работает <strong>локально на твоём Mac</strong> — запись никуда не отправляется. Есть бесплатный режим, платная версия точнее и быстрее.</p>
+
+          <a class="download" href="https://superwhisper.com">
+            <span class="download-label">Скачать superwhisper</span>
+            <span class="download-url">superwhisper.com</span>
+          </a>
+
+          <div class="way">
+            <h4>Как установить</h4>
+            <ol>
+              <li>Скачай с сайта и <strong>перетащи в папку Applications</strong>.</li>
+              <li>При первом запуске разреши доступ к <strong>микрофону</strong> и к <strong>универсальному доступу</strong> — без второго приложение не сможет вставлять текст в другие окна.</li>
+              <li>Скачай модель, которую предложит мастер настройки. Для русского языка бери <strong>Large</strong>, если на Mac 16 ГБ памяти и больше; иначе Medium.</li>
+              <li>Задай горячую клавишу — по умолчанию удерживание правой <kbd>Cmd</kbd>.</li>
+              <li>Проверь: открой любое поле ввода, зажми клавишу, скажи фразу, отпусти — текст появится сам.</li>
+            </ol>
+          </div>
+
+          <p>Альтернатива, если нужна не диктовка, а расшифровка готовых записей и видео, — <a href="https://www.macwhisper.com">MacWhisper</a>.</p>
+          <p class="result"><strong>Проверка:</strong> надиктованная фраза появляется текстом в открытом окне.</p>
+        </div>
+
+        <div class="only-win">
+          <p>На Windows встроенная диктовка вызывается сочетанием <kbd>Win</kbd> + <kbd>H</kbd> — отдельно ничего ставить не нужно, но качество русского распознавания среднее.</p>
+          <p>Если нужна точная диктовка на уровне Whisper, ставь <a href="https://www.wisprflow.ai/">Wispr Flow</a> — работает в любом окне, есть бесплатный тариф.</p>
+          <a class="download" href="https://www.wisprflow.ai/">
+            <span class="download-label">Скачать Wispr Flow</span>
+            <span class="download-url">wisprflow.ai</span>
+          </a>
+          <p class="result"><strong>Проверка:</strong> надиктованная фраза появляется текстом в открытом окне.</p>
+        </div>
       </div>
     </article>
 
-  </div>
-
-  <div class="note only-mac">
-    <p><strong>Короткий путь для Mac.</strong> Когда Homebrew уже стоит, шаги 3–7 ставятся двумя строками:</p>
-    <code class="cmd">brew install git node python
-brew install --cask visual-studio-code docker</code>
-    <p>Остаётся настроить Git, включить команду <code>code</code> в PATH и запустить Docker Desktop.</p>
   </div>
 </section>
 
-<section id="check">
-  <h2>Проверка, что всё встало</h2>
-  <p class="sub">Закрой все окна терминала, открой VS Code, открой встроенный терминал (<kbd>Ctrl</kbd> + <kbd>`</kbd>) и выполни команды подряд. Каждая должна вернуть номер версии, а не ошибку.</p>
+<section id="accounts">
+  <h2>Два аккаунта</h2>
+  <p class="sub">Ставить ничего не надо — просто зарегистрироваться. Оба нужны до занятия: без них не получится ни оплатить подписку, ни сохранить проект.</p>
 
-  <div class="only-mac">
-    <code class="cmd">brew --version      <b># Homebrew 4.x</b>
-code --version      <b># 1.10x.x</b>
-docker --version    <b># Docker version 27.x</b>
-git --version       <b># git version 2.4x</b>
-node -v             <b># v22.x.x</b>
-npm -v              <b># 10.x.x</b>
-python3 --version   <b># Python 3.12+</b></code>
-    <p>Если терминал отвечает <code>command not found</code> — программа встала, но оболочка её не видит. Самая частая причина на Mac: не выполнены команды <code>eval "$(/opt/homebrew/bin/brew shellenv)"</code> из шага 2. Выполни их и перезапусти терминал.</p>
+  <div class="accounts">
+
+    <article class="account">
+      <h3>Почта Gmail</h3>
+      <p>Нужна обязательно: <strong>на mail.ru и Яндекс многие сервисы просто не регистрируют</strong> — OpenAI и Anthropic в том числе.</p>
+      <ul>
+        <li>Заводи <strong>новый ящик</strong>, отдельно от личного — учебное и личное лучше не смешивать.</li>
+        <li>Регистрируйся <strong>с включённым VPN</strong>.</li>
+        <li>Запиши пароль и включи двухфакторную защиту: на этот ящик завяжутся все подписки.</li>
+      </ul>
+      <a class="download" href="https://accounts.google.com/signup">
+        <span class="download-label">Создать почту</span>
+        <span class="download-url">accounts.google.com/signup</span>
+      </a>
+    </article>
+
+    <article class="account">
+      <h3>Аккаунт GitHub</h3>
+      <p>Бесплатное хранилище проектов в облаке: резервная копия, портфолио и вход в кучу сервисов одной кнопкой.</p>
+      <ul>
+        <li>Регистрируй <strong>на тот же Gmail</strong>.</li>
+        <li>Придумай нормальное имя пользователя — оно будет видно в ссылках на твои проекты.</li>
+        <li>Подтверди почту и на этом остановись: настраивать ничего не надо.</li>
+      </ul>
+      <a class="download" href="https://github.com/signup">
+        <span class="download-label">Зарегистрироваться</span>
+        <span class="download-url">github.com/signup</span>
+      </a>
+    </article>
+
+  </div>
+</section>
+
+<section id="later">
+  <h2>Что поставим вместе</h2>
+  <p class="sub">Это уже на занятии — здесь нужен терминал и настройка, самому лезть не надо. Список для понимания, что нас ждёт.</p>
+
+  <div class="later">
+    <div class="later-row only-mac">
+      <span class="name">Homebrew</span>
+      <span class="desc">Магазин программ для Mac, работающий из терминала. После него всё остальное ставится одной строкой.</span>
+    </div>
+    <div class="later-row">
+      <span class="name">Git</span>
+      <span class="desc">История версий проекта. Твоя кнопка «отменить» на весь проект целиком: сломал — вернулся назад.</span>
+    </div>
+    <div class="later-row">
+      <span class="name">Node.js</span>
+      <span class="desc">Движок для веб-разработки. Через него же ставятся AI-агенты.</span>
+    </div>
+    <div class="later-row">
+      <span class="name">OpenAI Codex</span>
+      <span class="desc">Наш основной AI-агент. Ставится расширением в VS Code, входит в подписку ChatGPT Plus.</span>
+    </div>
+    <div class="later-row">
+      <span class="name">Claude Code</span>
+      <span class="desc">Второй агент, для сложных задач. Отдельная подписка, подключим, когда втянешься.</span>
+    </div>
   </div>
 
-  <div class="only-win">
-    <code class="cmd">code --version      <b># 1.10x.x</b>
-docker --version    <b># Docker version 27.x</b>
-git --version       <b># git version 2.4x</b>
-node -v             <b># v22.x.x</b>
-npm -v              <b># 10.x.x</b>
-python --version    <b># Python 3.12+</b></code>
-    <p>Если команда отвечает «не является внутренней или внешней командой» — программа встала, но не прописалась в PATH. Самая частая причина: забытая галочка у Python. Лечится переустановкой с правильной галочкой.</p>
+  <div class="note">
+    <p><strong>Терминал — это не страшно.</strong> Он встроен прямо в VS Code и открывается сочетанием <kbd>Ctrl</kbd> + <kbd>`</kbd> (клавиша с буквой «ё»). Мы работаем в одном окне: слева файлы, посередине код, внизу терминал с агентом. Разберём на первом же занятии.</p>
   </div>
 </section>
 
 <section id="models">
   <h2>Чем будем работать</h2>
-  <p class="sub">Все эти инструменты пишут код, но различаются не столько «умом» модели, сколько формой доступа: автодополнение в редакторе, агент в терминале или сырой API с оплатой по факту. Цены — ориентир, тарифы меняются, сверяйся на сайте.</p>
+  <p class="sub">Все эти инструменты пишут код, но различаются не столько «умом» модели, сколько формой доступа: подсказка в редакторе, агент, который сам правит файлы, или ключ API с оплатой по факту. Цены — ориентир, тарифы меняются.</p>
 
   <div class="cards">
 
@@ -904,7 +988,7 @@ python --version    <b># Python 3.12+</b></code>
         <li class="plus"><span class="m">+</span><span>Одна подписка на всё: и чат, и агент, и картинки, и голос</span></li>
         <li class="plus"><span class="m">+</span><span>Отлично объясняет и разбирает чужой код — то, что нужно новичку</span></li>
         <li class="plus"><span class="m">+</span><span>Умеет уходить думать над задачей в облако, пока ты занят другим</span></li>
-        <li class="minus"><span class="m">−</span><span>На длинных многофайловых рефакторингах чаще теряет нить</span></li>
+        <li class="minus"><span class="m">−</span><span>На длинных многофайловых задачах чаще теряет нить</span></li>
         <li class="minus"><span class="m">−</span><span>Лимиты менее предсказуемы, чем у конкурента</span></li>
         <li class="minus"><span class="m">−</span><span>Нужен VPN и зарубежная оплата</span></li>
       </ul>
@@ -917,7 +1001,7 @@ python --version    <b># Python 3.12+</b></code>
         <h3>Claude Code</h3>
         <span class="price">от $20/мес<br>подписка Claude</span>
       </div>
-      <p class="what">Агент от Anthropic в терминале и VS Code. Сегодня — эталон для вайб-кодинга: держит в голове весь проект, а не отдельный файл. <strong>Мой основной инструмент.</strong></p>
+      <p class="what">Агент от Anthropic. Сегодня — эталон для вайб-кодинга: держит в голове весь проект, а не отдельный файл. <strong>Мой основной инструмент.</strong></p>
       <ul class="pc">
         <li class="plus"><span class="m">+</span><span>Сам ищет нужные файлы, правит их, запускает тесты и чинит свои же ошибки</span></li>
         <li class="plus"><span class="m">+</span><span>Лучшее качество на больших и запутанных проектах</span></li>
@@ -940,7 +1024,7 @@ python --version    <b># Python 3.12+</b></code>
         <li class="plus"><span class="m">+</span><span>Дешевле подписок в десятки раз</span></li>
         <li class="plus"><span class="m">+</span><span>Сильна в алгоритмах и математике</span></li>
         <li class="plus"><span class="m">+</span><span>Никаких лимитов: платишь ровно за использованное</span></li>
-        <li class="minus"><span class="m">−</span><span>Как агент заметно слабее — хуже держит длинную многошаговую задачу</span></li>
+        <li class="minus"><span class="m">−</span><span>Как агент заметно слабее — хуже держит длинную задачу</span></li>
         <li class="minus"><span class="m">−</span><span>Серверы в Китае: рабочий код клиента туда лучше не отправлять</span></li>
         <li class="minus"><span class="m">−</span><span>Нужно разбираться с API-ключами, это не «поставил и работает»</span></li>
       </ul>
@@ -965,32 +1049,15 @@ python --version    <b># Python 3.12+</b></code>
     </article>
 
     <article class="card">
-      <span class="role">Вариант</span>
-      <div class="card-head">
-        <h3>Cursor</h3>
-        <span class="price">бесплатный старт<br>далее от $20/мес</span>
-      </div>
-      <p class="what">Отдельный редактор — копия VS Code со встроенным AI. Всё то же самое, но кнопками и мышкой. Мы работаем в VS Code, так что это запасной путь, если терминал совсем не пойдёт.</p>
-      <ul class="pc">
-        <li class="plus"><span class="m">+</span><span>Понятный интерфейс: видно, что именно правит модель</span></li>
-        <li class="plus"><span class="m">+</span><span>Отличное предугадывание следующей правки по <kbd>Tab</kbd></span></li>
-        <li class="plus"><span class="m">+</span><span>Переезд с VS Code в один клик, расширения переносятся</span></li>
-        <li class="minus"><span class="m">−</span><span>Это отдельная программа: живёшь уже не в VS Code</span></li>
-        <li class="minus"><span class="m">−</span><span>Путаный расчёт лимитов, легко незаметно уйти в перерасход</span></li>
-      </ul>
-      <div class="card-foot"><a class="dl" href="https://cursor.com">cursor.com</a></div>
-    </article>
-
-    <article class="card">
       <span class="role">Для интереса</span>
       <div class="card-head">
         <h3>Ollama и LM Studio</h3>
         <span class="price">$0 за софт<br>платишь железом</span>
       </div>
-      <p class="what">Модель качается на твой Mac и работает локально: интернет и VPN не нужны, наружу не уходит ничего. <strong>LM Studio</strong> — приложение с кнопками, ставится за пять минут. <strong>Ollama</strong> — то же самое из терминала, удобно подключать к VS Code.</p>
+      <p class="what">Модель качается на твой Mac и работает локально: интернет и VPN не нужны, наружу не уходит ничего. <strong>LM Studio</strong> — приложение с кнопками, ставится за пять минут. <strong>Ollama</strong> — то же самое из терминала.</p>
       <ul class="pc">
         <li class="plus"><span class="m">+</span><span>Полная приватность: код не покидает ноутбук</span></li>
-        <li class="plus"><span class="m">+</span><span>Ноль расходов и никаких лимитов — хоть круглые сутки</span></li>
+        <li class="plus"><span class="m">+</span><span>Ноль расходов и никаких лимитов</span></li>
         <li class="plus"><span class="m">+</span><span>Работает без интернета</span></li>
         <li class="minus"><span class="m">−</span><span>Качество заметно ниже облачных: для боевой работы не тянет</span></li>
         <li class="minus"><span class="m">−</span><span>Съедает всю оперативную память — параллельно работать тяжело</span></li>
@@ -1000,7 +1067,6 @@ python --version    <b># Python 3.12+</b></code>
         <li><span class="k">Mac, 16 ГБ памяти</span><span class="v">модели 7–8B · ~5 ГБ</span></li>
         <li><span class="k">Mac, 32 ГБ памяти</span><span class="v">модели 14–30B · ~20 ГБ</span></li>
         <li><span class="k">Mac, 64 ГБ и выше</span><span class="v">модели 70B · ~40 ГБ</span></li>
-        <li><span class="k">Windows</span><span class="v">видеокарта от 12 ГБ VRAM</span></li>
       </ul>
       <p class="what">Попробовать стоит — полезно понимать, как это устроено. <strong>Основным инструментом пока не станет.</strong></p>
       <div class="card-foot"><a class="dl" href="https://lmstudio.ai">lmstudio.ai</a> <a class="dl" href="https://ollama.com">ollama.com</a></div>
@@ -1027,10 +1093,9 @@ python --version    <b># Python 3.12+</b></code>
       </thead>
       <tbody>
         <tr><td>OpenAI Codex</td><td>Агент в VS Code + чат</td><td class="num">от $20/мес</td><td>Средний</td><td>Высокая</td><td>Основной на старте</td></tr>
-        <tr><td>Claude Code</td><td>Агент в терминале / VS Code</td><td class="num">от $20/мес</td><td>Средний</td><td>Очень высокая</td><td>Рекомендую следом</td></tr>
+        <tr><td>Claude Code</td><td>Агент в VS Code</td><td class="num">от $20/мес</td><td>Средний</td><td>Очень высокая</td><td>Рекомендую следом</td></tr>
         <tr><td>DeepSeek</td><td>API-ключ</td><td class="num">~$5 надолго</td><td>Высокий</td><td>Средняя</td><td>Дешёвая рутина</td></tr>
         <tr><td>Copilot</td><td>Автодополнение в VS Code</td><td class="num">от $0</td><td>Низкий</td><td>Низкая</td><td>Фон и бесплатный старт</td></tr>
-        <tr><td>Cursor</td><td>Отдельный редактор</td><td class="num">от $0</td><td>Низкий</td><td>Высокая</td><td>Запасной вариант</td></tr>
         <tr><td>Ollama / LM Studio</td><td>Локально на своём Mac</td><td class="num">$0</td><td>Высокий</td><td>Низкая</td><td>Приватность и интерес</td></tr>
       </tbody>
     </table>
@@ -1066,47 +1131,17 @@ python --version    <b># Python 3.12+</b></code>
   </div>
 </section>
 
-<section id="first">
-  <h2>Первый проект за 15 минут</h2>
-  <p class="sub">Когда всё установлено — открой встроенный терминал VS Code и пройди эти шаги. Это полный рабочий цикл в миниатюре: папка, история версий, агент, результат, сохранение.</p>
-
-  <div class="only-mac">
-    <code class="cmd">mkdir -p ~/Projects/hello-vibe   <b># создать папку проекта</b>
-cd ~/Projects/hello-vibe         <b># перейти в неё</b>
-code .                           <b># открыть её в VS Code</b>
-git init                         <b># включить историю версий</b>
-codex                            <b># запустить агента</b></code>
-  </div>
-
-  <div class="only-win">
-    <code class="cmd">mkdir C:\Projects\hello-vibe     <b># создать папку проекта</b>
-cd C:\Projects\hello-vibe        <b># перейти в неё</b>
-code .                           <b># открыть её в VS Code</b>
-git init                         <b># включить историю версий</b>
-codex                            <b># запустить агента</b></code>
-  </div>
-
-  <p>Дальше пишешь агенту задачу человеческим языком — например: «Сделай одностраничный сайт-визитку на HTML и CSS: имя, короткое описание, три ссылки. Тёмная тема, шрифт без засечек. Открой результат в браузере». Он создаст файлы сам.</p>
-
-  <p>Когда результат устраивает — фиксируешь его, чтобы было куда откатиться:</p>
-
-  <code class="cmd">git add .
-git commit -m "Первая версия визитки"</code>
-
-  <p>Всё. С этого момента любой эксперимент безопасен: сломал — вернулся к последнему коммиту.</p>
-</section>
-
 <section id="pitfalls">
   <h2>Пять ошибок, на которых спотыкаются все</h2>
 
   <ul class="pitfalls">
     <li>
-      <strong>Работать без коммитов</strong>
-      <span>Агент за один заход правит десяток файлов. Без Git ты не отличишь, что он улучшил, а что сломал, и не вернёшься назад. Коммить после каждого работающего шага.</span>
+      <strong>Работать без сохранений</strong>
+      <span>Агент за один заход правит десяток файлов. Без Git ты не отличишь, что он улучшил, а что сломал, и не вернёшься назад. Сохраняй версию после каждого работающего шага.</span>
     </li>
     <li>
       <strong>Ставить задачу одним словом</strong>
-      <span>«Сделай сайт» даёт случайный результат. Опиши, что именно, для кого, на чём и как должно выглядеть. Чем точнее вход, тем меньше переделок.</span>
+      <span>«Сделай сайт» даёт случайный результат. Опиши, что именно, для кого, на чём и как должно выглядеть. Чем точнее вход, тем меньше переделок. Голосом это делать быстрее — за этим и нужна диктовка.</span>
     </li>
     <li>
       <strong>Принимать код, не читая</strong>
@@ -1114,102 +1149,93 @@ git commit -m "Первая версия визитки"</code>
     </li>
     <li>
       <strong>Класть ключи и пароли прямо в код</strong>
-      <span>API-ключи хранят в файле <code>.env</code>, а сам <code>.env</code> вносят в <code>.gitignore</code>. Иначе ключ уедет в публичный репозиторий и его найдут за часы.</span>
+      <span>Пароли и ключи хранят в отдельном файле, который не попадает в облако. Иначе ключ уедет в публичный репозиторий и его найдут за часы. Разберём на занятии.</span>
     </li>
     <li>
       <strong>Копить изменения огромными кусками</strong>
-      <span>Проси одну задачу за раз и сразу проверяй результат. Двадцать правок за один запрос почти гарантированно приедут с ошибкой, которую потом не локализовать.</span>
+      <span>Проси одну задачу за раз и сразу проверяй результат. Двадцать правок за один запрос почти гарантированно приедут с ошибкой, которую потом не найти.</span>
     </li>
   </ul>
 </section>
 
 <section id="links">
   <h2>Все ссылки одним списком</h2>
-  <p class="sub">Всё, что нужно скачать, в порядке установки. Ссылки проверены и ведут на официальные сайты — не качай эти программы со сторонних ресурсов.</p>
+  <p class="sub">Всё, что нужно скачать и завести, в порядке установки. Ссылки проверены и ведут на официальные сайты — не качай эти программы со сторонних ресурсов.</p>
 
   <div class="linkgroup">
-    <h3>Программы</h3>
+    <h3>Ставим сейчас</h3>
 
-    <div class="linkrow">
-      <span class="name">1. Happ — VPN</span>
-      <a href="https://happ.info/">https://happ.info/</a>
-      <span class="hint only-mac">Прямая ссылка на Mac-версию: <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.macOS.universal.dmg">Happ.macOS.universal.dmg</a></span>
-      <span class="hint only-win">На странице выбери кнопку Windows.</span>
-    </div>
-    <div class="linkrow">
-      <span class="name">1a. Happ для iPhone</span>
-      <a href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215">https://apps.apple.com/us/app/happ-proxy-utility/id6504287215</a>
-      <span class="hint">Та же подписка работает и на телефоне, и на компьютере. Ссылку-подписку пришлю отдельно.</span>
-    </div>
-    <div class="linkrow">
-      <span class="name">1b. Outline — запасной VPN</span>
-      <a href="https://getoutline.org/get-started/">https://getoutline.org/get-started/</a>
-      <span class="hint">Ставить только если Happ не подойдёт.</span>
-    </div>
     <div class="linkrow only-mac">
-      <span class="name">2. Homebrew</span>
-      <a href="https://brew.sh">https://brew.sh</a>
-      <span class="hint">Команда установки — на главной странице. Через него ставится всё остальное.</span>
+      <span class="name">1. Happ — VPN</span>
+      <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.macOS.universal.dmg">Happ.macOS.universal.dmg</a>
+      <span class="hint">Все версии на <a href="https://happ.info/">happ.info</a>. Ссылку-подписку пришлю отдельно.</span>
     </div>
     <div class="linkrow only-win">
-      <span class="name">2. Windows Terminal</span>
-      <a href="https://apps.microsoft.com/detail/9n0dx20hk701">https://apps.microsoft.com/detail/9n0dx20hk701</a>
+      <span class="name">1. Happ — VPN</span>
+      <a href="https://happ.info/">https://happ.info/</a>
+      <span class="hint">На странице выбери кнопку Windows. Ссылку-подписку пришлю отдельно.</span>
     </div>
     <div class="linkrow">
-      <span class="name">3. Visual Studio Code</span>
+      <span class="name">1a. Happ на телефон</span>
+      <a href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215">https://apps.apple.com/us/app/happ-proxy-utility/id6504287215</a>
+      <span class="hint">Одна подписка работает и на компьютере, и на телефоне.</span>
+    </div>
+    <div class="linkrow">
+      <span class="name">2. Visual Studio Code</span>
       <a href="https://code.visualstudio.com/download">https://code.visualstudio.com/download</a>
-      <span class="hint only-mac">Кнопка «Mac Universal». Или командой <code>brew install --cask visual-studio-code</code></span>
-      <span class="hint only-win">Кнопка «User Installer x64».</span>
+      <span class="hint only-mac">Кнопка «Mac Universal».</span>
+      <span class="hint only-win">Кнопка «Windows x64 User Installer», галочка «Add to PATH».</span>
     </div>
     <div class="linkrow">
-      <span class="name">4. Docker Desktop</span>
+      <span class="name">3. Docker Desktop</span>
       <a href="https://www.docker.com/products/docker-desktop/">https://www.docker.com/products/docker-desktop/</a>
-      <span class="hint only-mac">Для M1–M4 — кнопка «Apple Silicon». Или командой <code>brew install --cask docker</code></span>
+      <span class="hint only-mac">Для M1–M4 — кнопка «Apple Silicon».</span>
       <span class="hint only-win">Потребует включить WSL 2 и перезагрузиться.</span>
     </div>
     <div class="linkrow only-mac">
-      <span class="name">5. Git</span>
-      <a href="https://git-scm.com/download/mac">https://git-scm.com/download/mac</a>
-      <span class="hint">Проще командой: <code>brew install git</code></span>
-    </div>
-    <div class="linkrow only-win">
-      <span class="name">5. Git</span>
-      <a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a>
-    </div>
-    <div class="linkrow">
-      <span class="name">6. Node.js LTS</span>
-      <a href="https://nodejs.org/en/download">https://nodejs.org/en/download</a>
-      <span class="hint only-mac">Проще командой: <code>brew install node</code></span>
-    </div>
-    <div class="linkrow only-mac">
-      <span class="name">7. Python</span>
+      <span class="name">4. Python</span>
       <a href="https://www.python.org/downloads/macos/">https://www.python.org/downloads/macos/</a>
-      <span class="hint">Проще командой: <code>brew install python</code></span>
+      <span class="hint">Файл «macOS 64-bit universal2 installer», версия 3.12 или новее.</span>
     </div>
     <div class="linkrow only-win">
-      <span class="name">7. Python</span>
+      <span class="name">4. Python</span>
       <a href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a>
       <span class="hint">Галочка «Add python.exe to PATH» в первом окне.</span>
     </div>
+    <div class="linkrow only-mac">
+      <span class="name">5. superwhisper</span>
+      <a href="https://superwhisper.com">https://superwhisper.com</a>
+      <span class="hint">Диктовка голосом, работает локально. Для расшифровки записей — <a href="https://www.macwhisper.com">MacWhisper</a>.</span>
+    </div>
+    <div class="linkrow only-win">
+      <span class="name">5. Wispr Flow</span>
+      <a href="https://www.wisprflow.ai/">https://www.wisprflow.ai/</a>
+      <span class="hint">Диктовка голосом. Встроенная альтернатива — <kbd>Win</kbd> + <kbd>H</kbd>.</span>
+    </div>
+  </div>
+
+  <div class="linkgroup">
+    <h3>Аккаунты</h3>
+
     <div class="linkrow">
-      <span class="name">8. Почта Gmail</span>
+      <span class="name">Почта Gmail</span>
       <a href="https://accounts.google.com/signup">https://accounts.google.com/signup</a>
-      <span class="hint">Новый ящик, регистрировать с включённым VPN. На него завяжутся все подписки.</span>
+      <span class="hint">Новый ящик, регистрировать с включённым VPN.</span>
     </div>
     <div class="linkrow">
-      <span class="name">9. Аккаунт GitHub</span>
+      <span class="name">GitHub</span>
       <a href="https://github.com/signup">https://github.com/signup</a>
       <span class="hint">Регистрируй на тот же Gmail.</span>
     </div>
   </div>
 
   <div class="linkgroup">
-    <h3>Нейросети</h3>
+    <h3>Нейросети — ставим вместе</h3>
 
     <div class="linkrow">
       <span class="name">OpenAI Codex</span>
       <a href="https://developers.openai.com/codex/">https://developers.openai.com/codex/</a>
-      <span class="hint">Наш основной инструмент. Подписка оформляется на <a href="https://chatgpt.com">chatgpt.com</a>, нужен VPN.</span>
+      <span class="hint">Наш основной инструмент. Подписка — на <a href="https://chatgpt.com">chatgpt.com</a>, нужен VPN.</span>
     </div>
     <div class="linkrow">
       <span class="name">Claude</span>
@@ -1224,10 +1250,6 @@ git commit -m "Первая версия визитки"</code>
       <span class="name">GitHub Copilot</span>
       <a href="https://github.com/features/copilot">https://github.com/features/copilot</a>
       <span class="hint">Есть бесплатный тариф.</span>
-    </div>
-    <div class="linkrow">
-      <span class="name">Cursor</span>
-      <a href="https://cursor.com">https://cursor.com</a>
     </div>
     <div class="linkrow">
       <span class="name">LM Studio</span>
