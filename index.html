@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Стартовый набор вайб-кодера</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+(function () {
+  var saved = null;
+  try { saved = localStorage.getItem('starter-os'); } catch (e) {}
+  var isWin = saved ? saved === 'win' : /Win/i.test(navigator.platform || navigator.userAgent);
+  document.documentElement.setAttribute('data-os', isWin ? 'win' : 'mac');
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;700&display=swap">
+
+<style>
+:root {
+  --paper:      #FAF9F5;
+  --surface:    #FFFFFF;
+  --surface-2:  #F2F0E9;
+  --ink:        #1B1A16;
+  --ink-soft:   #55524A;
+  --ink-faint:  #8A8779;
+  --rule:       #E2DFD4;
+  --accent:     #B8860B;
+  --accent-ink: #7A5A06;
+  --accent-wash:#FBF3DC;
+  --pro:        #2F6B4F;
+  --con:        #A83A2C;
+  --shadow:     0 1px 2px rgba(27,26,22,.05), 0 8px 24px -16px rgba(27,26,22,.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:      #121210;
+    --surface:    #1A1A17;
+    --surface-2:  #232320;
+    --ink:        #EDEAE0;
+    --ink-soft:   #B0ABA0;
+    --ink-faint:  #7E7A70;
+    --rule:       #32312C;
+    --accent:     #E9B949;
+    --accent-ink: #F2CF7C;
+    --accent-wash:#2A2418;
+    --pro:        #7BC49B;
+    --con:        #E8887A;
+    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:      #121210;
+  --surface:    #1A1A17;
+  --surface-2:  #232320;
+  --ink:        #EDEAE0;
+  --ink-soft:   #B0ABA0;
+  --ink-faint:  #7E7A70;
+  --rule:       #32312C;
+  --accent:     #E9B949;
+  --accent-ink: #F2CF7C;
+  --accent-wash:#2A2418;
+  --pro:        #7BC49B;
+  --con:        #E8887A;
+  --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.62;
+  margin: 0;
+  padding: 0 24px 96px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 900px; margin: 0 auto; }
+
+h1, h2, h3, .label, .step-num, .price, nav a, th, .os-switch button {
+  font-family: Archivo, "Helvetica Neue", Arial, sans-serif;
+}
+
+code, kbd, .cmd {
+  font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+}
+
+/* ---------- переключатель ОС ---------- */
+
+:root:not([data-os="win"]) .only-win { display: none; }
+:root[data-os="win"] .only-mac { display: none; }
+
+.os-switch {
+  display: inline-flex;
+  border: 1.5px solid var(--ink);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.os-switch button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: background .12s ease, color .12s ease;
+}
+
+.os-switch button + button { border-left: 1.5px solid var(--ink); }
+.os-switch button:hover { background: var(--surface-2); }
+.os-switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+
+:root:not([data-os="win"]) .os-switch button[data-os="mac"],
+:root[data-os="win"] .os-switch button[data-os="win"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ---------- шапка ---------- */
+
+header {
+  padding: 68px 0 36px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin: 0 0 20px;
+}
+
+h1 {
+  font-size: clamp(38px, 6.5vw, 66px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.02;
+  text-wrap: balance;
+  margin: 0 0 20px;
+}
+
+.deck {
+  font-size: 20px;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  margin: 0 0 28px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 28px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+/* ---------- навигация ---------- */
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 56px;
+  padding: 14px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+}
+
+nav a {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  padding-bottom: 2px;
+}
+
+nav a:hover, nav a:focus-visible { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* ---------- секции ---------- */
+
+section { margin-bottom: 72px; scroll-margin-top: 68px; }
+
+h2 {
+  font-size: clamp(26px, 3.6vw, 34px);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.14;
+  text-wrap: balance;
+  margin: 0 0 10px;
+}
+
+h2 + .sub {
+  color: var(--ink-soft);
+  max-width: 64ch;
+  margin: 0 0 36px;
+}
+
+h3 {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  margin: 0;
+}
+
+p { max-width: 68ch; }
+
+a { color: var(--accent-ink); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+/* ---------- шаги установки ---------- */
+
+.steps { display: flex; flex-direction: column; gap: 2px; }
+
+.step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 0 20px;
+  padding: 24px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.step-num {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+
+.step-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+  margin-bottom: 8px;
+}
+
+.tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--surface-2);
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.tag.must { background: var(--accent-wash); color: var(--accent-ink); }
+
+.step p { margin: 0 0 12px; color: var(--ink-soft); }
+.step p strong { color: var(--ink); font-weight: 600; }
+.step p:last-child, .step .cmd:last-child { margin-bottom: 0; }
+
+.cmd {
+  display: block;
+  overflow-x: auto;
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  padding: 11px 14px;
+  font-size: 13.5px;
+  white-space: pre;
+  border-radius: 0 4px 4px 0;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+
+.cmd b { color: var(--accent-ink); font-weight: 400; }
+
+.dl {
+  display: inline-block;
+  font-family: Archivo, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 1px;
+}
+.dl:hover { color: var(--accent-ink); }
+.dl::after { content: " ↗"; font-weight: 500; color: var(--accent); }
+
+/* ---------- карточки моделей ---------- */
+
+.cards { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 22px 22px 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card.pick { border-color: var(--accent); border-width: 1.5px; }
+
+.card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+
+.price {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent-ink);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.card .what { margin: 0; font-size: 15.5px; color: var(--ink-soft); }
+
+.pc { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; font-size: 15px; }
+.pc li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; align-items: start; }
+.pc .m { font-family: "JetBrains Mono", monospace; font-weight: 700; line-height: 1.5; }
+.pc .plus .m { color: var(--pro); }
+.pc .minus .m { color: var(--con); }
+.pc .minus span:last-child { color: var(--ink-soft); }
+
+.card-foot { margin-top: auto; padding-top: 4px; }
+
+/* ---------- таблица ---------- */
+
+.table-scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
+
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 640px; }
+
+th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+
+th {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: var(--surface-2);
+  white-space: nowrap;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+td:first-child { font-family: Archivo, sans-serif; font-weight: 600; white-space: nowrap; }
+td.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- сценарии выбора ---------- */
+
+.routes { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+.route {
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 20px;
+  background: var(--surface);
+}
+
+.route h3 { margin-bottom: 6px; }
+.route .cost { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--accent-ink); margin-bottom: 12px; }
+.route p { font-size: 15px; color: var(--ink-soft); margin: 0; }
+
+/* ---------- врезка ---------- */
+
+.note {
+  background: var(--accent-wash);
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin: 32px 0 0;
+}
+.note p { margin: 0; max-width: 70ch; }
+.note p + p { margin-top: 10px; }
+
+/* ---------- чек-лист ошибок ---------- */
+
+.pitfalls { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.pitfalls li { border-left: 2px solid var(--con); padding: 2px 0 2px 16px; max-width: 72ch; }
+.pitfalls strong { display: block; font-family: Archivo, sans-serif; font-weight: 600; margin-bottom: 2px; }
+.pitfalls span { color: var(--ink-soft); font-size: 15.5px; }
+
+footer {
+  border-top: 2px solid var(--ink);
+  padding-top: 20px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+@media (max-width: 560px) {
+  body { font-size: 16px; padding: 0 18px 64px; }
+  .step { grid-template-columns: 40px 1fr; gap: 0 14px; }
+  .step-num { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Памятка для старта</p>
+  <h1>Стартовый набор вайб-кодера</h1>
+  <p class="deck">Что поставить на компьютер, какую нейросеть взять для написания кода и чем они отличаются друг от друга. Всё, что нужно, чтобы сегодня же запустить первый проект.</p>
+  <div class="meta">
+    <span class="os-switch">
+      <button type="button" data-os="mac">macOS</button>
+      <button type="button" data-os="win">Windows</button>
+    </span>
+    <span>Время установки: ~40 минут</span>
+    <span>Обновлено: август 2026</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#install">Установка</a>
+  <a href="#check">Проверка</a>
+  <a href="#models">Нейросети</a>
+  <a href="#compare">Сравнение</a>
+  <a href="#choose">Что выбрать</a>
+  <a href="#first">Первый проект</a>
+  <a href="#pitfalls">Частые ошибки</a>
+</nav>
+
+<section id="install">
+  <h2>Часть 1. Что установить</h2>
+  <p class="sub only-mac">Команды ниже — для macOS. Ставим строго по порядку: сначала Homebrew, дальше он поставит почти всё остальное одной строкой. Пункты 1–6 обязательны, 7–8 добавляем, когда освоился. Переключатель в шапке меняет инструкции на Windows.</p>
+  <p class="sub only-win">Команды ниже — для Windows 10/11. Ставим строго по порядку, каждый следующий пункт опирается на предыдущий. Пункты 1–6 обязательны, 7–8 добавляем, когда освоился. Переключатель в шапке меняет инструкции на macOS.</p>
+
+  <div class="steps">
+
+    <article class="step">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-head">
+          <h3 class="only-mac">Терминал и Homebrew</h3>
+          <h3 class="only-win">Windows Terminal</h3>
+          <span class="tag must">обязательно</span>
+          <span class="tag">фундамент</span>
+        </div>
+
+        <div class="only-mac">
+          <p>Терминал уже стоит в системе: <strong>Cmd + пробел → «Терминал»</strong>. Homebrew — пакетный менеджер для macOS, через него ставится всё остальное одной командой вместо хождения по сайтам. Скопируй строку целиком, вставь в терминал и введи пароль от Mac (символы не отображаются — это нормально):</p>
+          <code class="cmd">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code>
+          <p>Заодно подтянутся Xcode Command Line Tools — без них не работает Git. Установка идёт 5–15 минут. В конце Homebrew напечатает две команды <code>echo ... >> ~/.zprofile</code> — <strong>их обязательно нужно выполнить</strong>, иначе система не найдёт <code>brew</code>. Потом закрой терминал и открой заново.</p>
+          <a class="dl" href="https://brew.sh">brew.sh</a>
+        </div>
+
+        <div class="only-win">
+          <p>Нормальный терминал вместо древней «Командной строки»: вкладки, копипаст, поддержка кириллицы. В Windows 11 уже встроен — просто проверь обновления. Именно отсюда запускаются AI-агенты. Открывается через <strong>Win + X → Терминал</strong>.</p>
+          <a class="dl" href="https://apps.microsoft.com/detail/9n0dx20hk701">Windows Terminal в Microsoft Store</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="step">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-head">
+          <h3>Visual Studio Code</h3>
+          <span class="tag must">обязательно</span>
+          <span class="tag">редактор</span>
+        </div>
+        <p>Программа, в которой ты пишешь код и внутри которой живут все AI-помощники. Бесплатный, самый распространённый редактор — под него есть всё. <strong>Не путай с Visual Studio</strong> (это другая, тяжёлая среда для C#).</p>
+        <div class="only-mac">
+          <code class="cmd">brew install --cask visual-studio-code</code>
+          <p>После установки нажми <strong>Cmd + Shift + P</strong>, набери <code>shell command</code> и выбери «Install 'code' command in PATH» — тогда любую папку можно будет открыть из терминала командой <code>code .</code></p>
+        </div>
+        <div class="only-win">
+          <p>При установке поставь галочки «Add to PATH» и «Открывать через контекстное меню» — потом пригодится.</p>
+        </div>
+        <a class="dl" href="https://code.visualstudio.com/download">code.visualstudio.com/download</a>
+      </div>
+    </article>
+
+    <article class="step">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-head">
+          <h3>Git</h3>
+          <span class="tag must">обязательно</span>
+          <span class="tag">история версий</span>
+        </div>
+        <p>Система контроля версий: сохраняет каждый шаг проекта и позволяет откатиться, если нейросеть что-то сломала. Без Git вайб-кодинг превращается в рулетку — <strong>это твоя кнопка «отменить» для всего проекта целиком</strong>.</p>
+        <div class="only-mac">
+          <p>В macOS есть старая встроенная версия, ставим свежую:</p>
+          <code class="cmd">brew install git</code>
+        </div>
+        <div class="only-win">
+          <a class="dl" href="https://git-scm.com/download/win">git-scm.com/download/win</a>
+        </div>
+        <p>После установки один раз представься Git:</p>
+        <code class="cmd">git config --global user.name "Ivan Petrov"
+git config --global user.email "ivan@example.com"</code>
+      </div>
+    </article>
+
+    <article class="step">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-head">
+          <h3>Node.js (версия LTS)</h3>
+          <span class="tag must">обязательно</span>
+          <span class="tag">движок + npm</span>
+        </div>
+        <p>Нужен по двум причинам: на нём работает почти вся веб-разработка и через его пакетный менеджер <code>npm</code> ставятся AI-инструменты, включая Claude Code. Бери версию с пометкой <strong>LTS</strong>, не «Current».</p>
+        <div class="only-mac">
+          <code class="cmd">brew install node</code>
+        </div>
+        <div class="only-win">
+          <a class="dl" href="https://nodejs.org/en/download">nodejs.org/en/download</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="step">
+      <div class="step-num">05</div>
+      <div>
+        <div class="step-head">
+          <h3>Python 3.12+</h3>
+          <span class="tag must">обязательно</span>
+          <span class="tag">скрипты, парсеры, AI</span>
+        </div>
+        <p>Язык, на котором пишут автоматизацию, парсеры, обработку данных и всё, что связано с нейросетями.</p>
+        <div class="only-mac">
+          <code class="cmd">brew install python</code>
+          <p>На Mac команда называется <code>python3</code>, а не <code>python</code> — это нормально, так и должно быть. Встроенный системный Python трогать нельзя, поэтому пользуемся тем, что поставил Homebrew.</p>
+        </div>
+        <div class="only-win">
+          <p>В первом окне установщика обязательно поставь галочку <strong>«Add python.exe to PATH»</strong> — иначе система его не найдёт и придётся переустанавливать.</p>
+          <a class="dl" href="https://www.python.org/downloads/windows/">python.org/downloads/windows</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="step">
+      <div class="step-num">06</div>
+      <div>
+        <div class="step-head">
+          <h3>Аккаунт GitHub</h3>
+          <span class="tag must">обязательно</span>
+          <span class="tag">облако для кода</span>
+        </div>
+        <p>Бесплатное хранилище проектов в облаке. Нужен и как резервная копия, и как твоё портфолио, и как вход в кучу сервисов — многие AI-инструменты логинятся через него.</p>
+        <a class="dl" href="https://github.com/signup">github.com/signup</a>
+      </div>
+    </article>
+
+    <article class="step">
+      <div class="step-num">07</div>
+      <div>
+        <div class="step-head">
+          <h3>Docker Desktop</h3>
+          <span class="tag">рекомендую</span>
+          <span class="tag">окружения</span>
+        </div>
+        <p>Docker запускает базы данных, серверы и чужие проекты в изолированных контейнерах — <strong>не засоряя систему и не ломая то, что уже стоит</strong>. Как только дойдёшь до PostgreSQL, Redis или запуска чужого репозитория, он станет обязательным: вместо часа установок — одна команда.</p>
+        <div class="only-mac">
+          <p>Для Mac на Apple Silicon (M1–M4) бери сборку <strong>Apple Chip / arm64</strong> — Intel-версия будет тормозить:</p>
+          <code class="cmd">brew install --cask docker</code>
+          <p>После установки запусти Docker Desktop из Launchpad и дождись, пока значок кита перестанет мигать. Docker должен быть запущен, иначе команды <code>docker</code> не работают.</p>
+        </div>
+        <div class="only-win">
+          <p>На Windows Docker требует включённый WSL 2 — установщик предложит это сам, соглашайся и перезагрузись. После установки запусти Docker Desktop и дождись статуса «Engine running».</p>
+        </div>
+        <p>Проверка, что всё живо — команда скачает и запустит тестовый контейнер:</p>
+        <code class="cmd">docker run hello-world</code>
+        <a class="dl" href="https://www.docker.com/products/docker-desktop/">docker.com — Docker Desktop</a>
+      </div>
+    </article>
+
+    <article class="step">
+      <div class="step-num">08</div>
+      <div>
+        <div class="step-head">
+          <h3>Claude Code</h3>
+          <span class="tag">рекомендую</span>
+          <span class="tag">AI-агент</span>
+        </div>
+        <p>Ставится последним, потому что требует Node.js из пункта 4. Это не автодополнение, а <strong>агент</strong>: сам читает проект, создаёт и правит файлы, запускает команды и проверяет результат. Работает и в терминале, и внутри VS Code через расширение.</p>
+        <code class="cmd">npm install -g @anthropic-ai/claude-code</code>
+        <p>Дальше заходишь в папку проекта, пишешь <code>claude</code> и логинишься подпиской Claude. Расширение для VS Code ставится из панели Extensions по запросу «Claude Code».</p>
+        <a class="dl" href="https://docs.claude.com/en/docs/claude-code/overview">docs.claude.com — Claude Code</a>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="note only-mac">
+    <p><strong>Всё сразу одной командой.</strong> Если Homebrew уже стоит, пункты 2–7 ставятся так:</p>
+    <code class="cmd">brew install git node python
+brew install --cask visual-studio-code docker</code>
+    <p>Дальше — только настройка Git, галочка <code>code</code> в PATH и запуск Docker Desktop.</p>
+  </div>
+
+  <div class="note">
+    <p><strong>Что ставить позже, а не сейчас:</strong> Postman (когда начнёшь дёргать чужие API), расширения VS Code — Prettier, ESLint, Python. На старте они только отвлекают.</p>
+  </div>
+</section>
+
+<section id="check">
+  <h2>Часть 2. Проверка, что всё встало</h2>
+  <p class="sub">Закрой все окна терминала, открой новое (важно — переменные окружения подхватываются только в новом окне) и выполни команды. Каждая должна вернуть номер версии, а не ошибку.</p>
+
+  <div class="only-mac">
+    <code class="cmd">brew --version      <b># Homebrew 4.x</b>
+node -v             <b># v22.x.x</b>
+npm -v              <b># 10.x.x</b>
+git --version       <b># git version 2.4x</b>
+python3 --version   <b># Python 3.12+</b>
+docker --version    <b># Docker version 27.x</b></code>
+    <p>Если терминал отвечает <code>command not found</code> — программа установилась, но оболочка её не видит. Самое частое на Mac: не выполнены две строки <code>echo ... >> ~/.zprofile</code> из шага 1. Выполни их и перезапусти терминал.</p>
+  </div>
+
+  <div class="only-win">
+    <code class="cmd">node -v             <b># v22.x.x</b>
+npm -v              <b># 10.x.x</b>
+git --version       <b># git version 2.4x</b>
+python --version    <b># Python 3.12+</b>
+docker --version    <b># Docker version 27.x</b></code>
+    <p>Если команда отвечает «не является внутренней или внешней командой» — программа установилась, но не прописалась в PATH. Самое частое: забытая галочка у Python. Лечится переустановкой с правильной галочкой.</p>
+  </div>
+</section>
+
+<section id="models">
+  <h2>Часть 3. Нейросети для кода</h2>
+  <p class="sub">Все они пишут код, но по-разному устроены. Ключевое различие не в «уме» модели, а в форме доступа: автодополнение в редакторе, чат в браузере, агент в терминале или сырой API, за который платишь по факту. Цены — ориентир, тарифы меняются, сверяйся на сайте.</p>
+
+  <div class="cards">
+
+    <article class="card pick">
+      <div class="card-head">
+        <h3>Claude Code</h3>
+        <span class="price">от $20/мес<br>подписка Claude</span>
+      </div>
+      <p class="what">Агент от Anthropic в терминале и VS Code. Сегодня — эталон для вайб-кодинга: держит в голове весь проект, а не отдельный файл.</p>
+      <ul class="pc">
+        <li class="plus"><span class="m">+</span><span>Сам ищет нужные файлы, правит их, запускает тесты и чинит свои же ошибки</span></li>
+        <li class="plus"><span class="m">+</span><span>Лучшее качество на больших и запутанных проектах</span></li>
+        <li class="plus"><span class="m">+</span><span>Фиксированная плата по подписке — не считаешь каждый запрос</span></li>
+        <li class="minus"><span class="m">−</span><span>Есть лимиты: при плотной работе упираешься в потолок и ждёшь сброса</span></li>
+        <li class="minus"><span class="m">−</span><span>Нужно привыкнуть к терминалу, кнопок нет</span></li>
+        <li class="minus"><span class="m">−</span><span>Из России платится не напрямую</span></li>
+      </ul>
+      <div class="card-foot"><a class="dl" href="https://claude.ai/download">claude.ai</a></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <h3>OpenAI Codex / ChatGPT</h3>
+        <span class="price">от $20/мес<br>ChatGPT Plus</span>
+      </div>
+      <p class="what">Второй агентный инструмент такого же класса: CLI, расширение для IDE и облачные задачи. Входит в ту же подписку, что и обычный ChatGPT.</p>
+      <ul class="pc">
+        <li class="plus"><span class="m">+</span><span>Одна подписка на всё: и чат, и агент, и картинки, и голос</span></li>
+        <li class="plus"><span class="m">+</span><span>Очень хорошо объясняет и разбирает чужой код — полезно новичку</span></li>
+        <li class="plus"><span class="m">+</span><span>Умеет уходить думать над задачей в облако, пока ты занят другим</span></li>
+        <li class="minus"><span class="m">−</span><span>На длинных многофайловых рефакторингах чаще теряет нить</span></li>
+        <li class="minus"><span class="m">−</span><span>Лимиты тоже есть, и они менее предсказуемы</span></li>
+      </ul>
+      <div class="card-foot"><a class="dl" href="https://developers.openai.com/codex/">developers.openai.com/codex</a></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <h3>DeepSeek API</h3>
+        <span class="price">оплата по факту<br>копейки за запрос</span>
+      </div>
+      <p class="what">Китайская модель с открытыми весами. Берётся не подпиской, а ключом API: кладёшь на счёт $5 и расходуешь их месяцами.</p>
+      <ul class="pc">
+        <li class="plus"><span class="m">+</span><span>Дешевле подписок в десятки раз — идеально добивать рутину</span></li>
+        <li class="plus"><span class="m">+</span><span>Сильна в алгоритмах и математике</span></li>
+        <li class="plus"><span class="m">+</span><span>Никаких лимитов: платишь ровно за то, что использовал</span></li>
+        <li class="minus"><span class="m">−</span><span>Как агент заметно слабее — хуже держит длинную многошаговую задачу</span></li>
+        <li class="minus"><span class="m">−</span><span>Серверы в Китае: рабочий код клиента туда лучше не отправлять</span></li>
+        <li class="minus"><span class="m">−</span><span>Бывает медленной в часы пик</span></li>
+      </ul>
+      <div class="card-foot"><a class="dl" href="https://platform.deepseek.com">platform.deepseek.com</a></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <h3>GitHub Copilot</h3>
+        <span class="price">есть бесплатный тариф<br>далее ~$10/мес</span>
+      </div>
+      <p class="what">Классическое автодополнение прямо в VS Code: дописывает строку или функцию за тебя, пока ты печатаешь. Сейчас умеет и в агентный режим.</p>
+      <ul class="pc">
+        <li class="plus"><span class="m">+</span><span>Самый мягкий вход: ничего настраивать не надо, просто пишешь код</span></li>
+        <li class="plus"><span class="m">+</span><span>Бесплатный тариф, а студентам — полный доступ бесплатно</span></li>
+        <li class="plus"><span class="m">+</span><span>Даёт выбрать модель: Claude, GPT или Gemini под капотом</span></li>
+        <li class="minus"><span class="m">−</span><span>Как агент слабее специализированных Claude Code и Codex</span></li>
+        <li class="minus"><span class="m">−</span><span>Приучает соглашаться с подсказкой, не читая её</span></li>
+      </ul>
+      <div class="card-foot"><a class="dl" href="https://github.com/features/copilot">github.com/features/copilot</a></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <h3>Cursor</h3>
+        <span class="price">бесплатный старт<br>далее от $20/мес</span>
+      </div>
+      <p class="what">Отдельный редактор — копия VS Code со встроенным AI. Всё то же самое, но кнопками и мышкой, без терминала.</p>
+      <ul class="pc">
+        <li class="plus"><span class="m">+</span><span>Самый понятный интерфейс для новичка: видно, что именно правит модель</span></li>
+        <li class="plus"><span class="m">+</span><span>Гениальное предугадывание следующей правки по Tab</span></li>
+        <li class="plus"><span class="m">+</span><span>Переезд с VS Code — в один клик, все расширения переносятся</span></li>
+        <li class="minus"><span class="m">−</span><span>Это отдельная программа: живёшь уже не в VS Code</span></li>
+        <li class="minus"><span class="m">−</span><span>Путаный расчёт лимитов, легко незаметно уйти в перерасход</span></li>
+      </ul>
+      <div class="card-foot"><a class="dl" href="https://cursor.com">cursor.com</a></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <h3>Google Gemini</h3>
+        <span class="price">щедрый<br>бесплатный лимит</span>
+      </div>
+      <p class="what">Gemini CLI и AI Studio. Главный вариант, если платить пока нечем: бесплатного лимита реально хватает на учебные проекты.</p>
+      <ul class="pc">
+        <li class="plus"><span class="m">+</span><span>Можно начать вообще без денег и без карты</span></li>
+        <li class="plus"><span class="m">+</span><span>Огромное окно контекста — переваривает большие документы целиком</span></li>
+        <li class="plus"><span class="m">+</span><span>Хорошо работает с картинками: скриншот макета → вёрстка</span></li>
+        <li class="minus"><span class="m">−</span><span>В агентном режиме аккуратность ниже, чаще ломает соседний код</span></li>
+        <li class="minus"><span class="m">−</span><span>Бесплатные запросы могут использоваться для обучения моделей</span></li>
+      </ul>
+      <div class="card-foot"><a class="dl" href="https://aistudio.google.com">aistudio.google.com</a></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <h3>Локальные модели</h3>
+        <span class="price">бесплатно,<br>нужно железо</span>
+      </div>
+      <p class="what">Ollama или LM Studio: модель крутится на твоём компьютере, интернет не нужен, наружу не уходит ничего.</p>
+      <ul class="pc">
+        <li class="plus"><span class="m">+</span><span>Полная приватность и ноль расходов</span></li>
+        <li class="plus"><span class="m">+</span><span>Работает без интернета и без лимитов</span></li>
+        <li class="plus"><span class="m">+</span><span>На Mac с Apple Silicon и 32+ ГБ памяти работает неожиданно бодро</span></li>
+        <li class="minus"><span class="m">−</span><span>На слабом железе мучительно медленно, модель занимает десятки гигабайт</span></li>
+        <li class="minus"><span class="m">−</span><span>Качество заметно ниже облачных — для реальной работы пока не тянет</span></li>
+      </ul>
+      <div class="card-foot"><a class="dl" href="https://lmstudio.ai">lmstudio.ai</a> &nbsp; <a class="dl" href="https://ollama.com">ollama.com</a></div>
+    </article>
+
+  </div>
+</section>
+
+<section id="compare">
+  <h2>Одной таблицей</h2>
+  <p class="sub">Порог входа — насколько трудно начать. Автономность — насколько инструмент способен сам довести задачу до конца, без пошагового руководства.</p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Инструмент</th>
+          <th>Формат</th>
+          <th>Цена</th>
+          <th>Порог входа</th>
+          <th>Автономность</th>
+          <th>Кому</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Claude Code</td><td>Агент в терминале / VS Code</td><td class="num">от $20/мес</td><td>Средний</td><td>Очень высокая</td><td>Основной рабочий инструмент</td></tr>
+        <tr><td>OpenAI Codex</td><td>Агент + чат</td><td class="num">от $20/мес</td><td>Средний</td><td>Высокая</td><td>Второе мнение и объяснения</td></tr>
+        <tr><td>DeepSeek</td><td>API-ключ</td><td class="num">~$5 надолго</td><td>Высокий</td><td>Средняя</td><td>Дешёвая рутина и эксперименты</td></tr>
+        <tr><td>Copilot</td><td>Автодополнение в VS Code</td><td class="num">от $0</td><td>Низкий</td><td>Низкая</td><td>Первые недели обучения</td></tr>
+        <tr><td>Cursor</td><td>Отдельный редактор</td><td class="num">от $0</td><td>Низкий</td><td>Высокая</td><td>Тем, кому неуютно в терминале</td></tr>
+        <tr><td>Gemini</td><td>CLI + веб</td><td class="num">$0</td><td>Низкий</td><td>Средняя</td><td>Старт без бюджета</td></tr>
+        <tr><td>Ollama / LM Studio</td><td>Локально</td><td class="num">$0</td><td>Высокий</td><td>Низкая</td><td>Приватность и учебный интерес</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="choose">
+  <h2>Что выбрать конкретно тебе</h2>
+  <p class="sub">Три рабочих связки. Начинать можно с любой — переехать на следующую всегда легко, проект от этого не меняется.</p>
+
+  <div class="routes">
+    <article class="route">
+      <h3>Пока без денег</h3>
+      <p class="cost">$0 / мес</p>
+      <p>VS Code + бесплатный Copilot + Gemini для крупных задач. Полностью хватает, чтобы пройти обучение и собрать первые проекты. Минус — упрёшься в потолок качества на чём-то сложном.</p>
+    </article>
+
+    <article class="route">
+      <h3>Оптимально для старта</h3>
+      <p class="cost">≈ $20 / мес</p>
+      <p>VS Code + одна подписка Claude и Claude Code внутри. Один инструмент, который делает 90% работы. Именно с этого советую начать, когда готов платить.</p>
+    </article>
+
+    <article class="route">
+      <h3>Как работаю я</h3>
+      <p class="cost">≈ $40 / мес + расход по API</p>
+      <p>Claude Code как основной агент, ChatGPT/Codex — второе мнение и разбор, DeepSeek по API — на массовую рутину, где переплачивать бессмысленно. Всё в VS Code.</p>
+    </article>
+  </div>
+
+  <div class="note">
+    <p><strong>Главная мысль:</strong> инструмент не заменяет понимание. Нейросеть уверенно напишет код, который не работает, и так же уверенно объяснит, почему он правильный. Твоя задача на первых месяцах — не научиться быстро генерировать, а научиться читать сгенерированное и замечать, где оно врёт.</p>
+  </div>
+</section>
+
+<section id="first">
+  <h2>Первый проект за 15 минут</h2>
+  <p class="sub">Когда всё установлено — открой терминал и пройди пять шагов. Это полный рабочий цикл в миниатюре: папка, история версий, агент, результат, сохранение.</p>
+
+  <div class="only-mac">
+    <code class="cmd">mkdir -p ~/Projects/hello-vibe   <b># создать папку проекта</b>
+cd ~/Projects/hello-vibe         <b># перейти в неё</b>
+git init                         <b># включить историю версий</b>
+claude                           <b># запустить агента</b></code>
+  </div>
+
+  <div class="only-win">
+    <code class="cmd">mkdir C:\Projects\hello-vibe     <b># создать папку проекта</b>
+cd C:\Projects\hello-vibe        <b># перейти в неё</b>
+git init                         <b># включить историю версий</b>
+claude                           <b># запустить агента</b></code>
+  </div>
+
+  <p>Дальше пишешь агенту задачу человеческим языком — например: «Сделай одностраничный сайт-визитку на HTML и CSS: имя, короткое описание, три ссылки. Тёмная тема, шрифт без засечек. Открой результат в браузере». Он создаст файлы сам.</p>
+
+  <p>Когда результат устраивает — фиксируешь его, чтобы было куда откатиться:</p>
+
+  <code class="cmd">git add .
+git commit -m "Первая версия визитки"</code>
+
+  <p>Всё. С этого момента любой эксперимент безопасен: сломал — вернулся к последнему коммиту.</p>
+</section>
+
+<section id="pitfalls">
+  <h2>Пять ошибок, на которых спотыкаются все</h2>
+
+  <ul class="pitfalls">
+    <li>
+      <strong>Работать без коммитов</strong>
+      <span>Агент за один заход правит десяток файлов. Без Git ты не отличишь, что он улучшил, а что сломал, и не вернёшься назад. Коммить после каждого работающего шага.</span>
+    </li>
+    <li>
+      <strong>Ставить задачу одним словом</strong>
+      <span>«Сделай сайт» даёт случайный результат. Опиши, что именно, для кого, на чём и как должно выглядеть. Чем точнее вход, тем меньше переделок.</span>
+    </li>
+    <li>
+      <strong>Принимать код, не читая</strong>
+      <span>Если ты не понял, что делает функция, — попроси объяснить построчно. Непонятый код становится неисправимым багом ровно через неделю.</span>
+    </li>
+    <li>
+      <strong>Класть ключи и пароли прямо в код</strong>
+      <span>API-ключи хранят в файле <code>.env</code>, а сам <code>.env</code> вносят в <code>.gitignore</code>. Иначе ключ уедет в публичный репозиторий и его найдут за часы.</span>
+    </li>
+    <li>
+      <strong>Копить изменения огромными кусками</strong>
+      <span>Проси одну задачу за раз и сразу проверяй результат. Двадцать правок за один запрос почти гарантированно приедут с ошибкой, которую потом не локализовать.</span>
+    </li>
+  </ul>
+</section>
+
+<footer>
+  Памятка составлена для старта обучения · Тарифы и ссылки проверяй на официальных сайтах — они меняются
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  if (!root.getAttribute('data-os')) root.setAttribute('data-os', 'mac');
+
+  document.querySelectorAll('.os-switch button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var os = btn.getAttribute('data-os');
+      root.setAttribute('data-os', os);
+      try { localStorage.setItem('starter-os', os); } catch (e) {}
+    });
+  });
+})();
+</script>
+</body>
+</html>
