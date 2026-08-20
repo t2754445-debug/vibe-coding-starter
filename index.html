@@ -12,6 +12,29 @@
   document.documentElement.setAttribute('data-os', isWin ? 'win' : 'mac');
 })();
 </script>
+<meta name="description" content="Что установить на компьютер и какой нейросетью писать код: Happ, VS Code, Docker, Python, superwhisper. Пошагово, со ссылками, для macOS и Windows.">
+<meta name="theme-color" content="#14140F">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Памятка для старта">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://t2754445-debug.github.io/vibe-coding-starter/">
+<meta property="og:title" content="Стартовый набор вайб-кодера">
+<meta property="og:description" content="Что установить на компьютер и какой нейросетью писать код. Пять программ со ссылками, пошагово и без терминала — 5 шагов, около 40 минут.">
+<meta property="og:image" content="https://t2754445-debug.github.io/vibe-coding-starter/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Стартовый набор вайб-кодера: Happ, VS Code, Docker, Python, superwhisper">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Стартовый набор вайб-кодера">
+<meta name="twitter:description" content="Что установить на компьютер и какой нейросетью писать код. Пять программ со ссылками, пошагово и без терминала.">
+<meta name="twitter:image" content="https://t2754445-debug.github.io/vibe-coding-starter/og-image.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;700&display=swap">
@@ -608,6 +631,111 @@ footer {
   color: var(--ink-faint);
 }
 
+/* ---------- чек-лист прогресса ---------- */
+
+.checklist {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.check-item {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  gap: 0 14px;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background .12s ease;
+}
+.check-item:last-of-type { border-bottom: none; }
+.check-item:hover { background: var(--surface-2); }
+
+.check-item input {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 1.5px solid var(--rule);
+  border-radius: 5px;
+  background: var(--paper);
+  cursor: pointer;
+  position: relative;
+  transition: background .12s ease, border-color .12s ease;
+}
+.check-item input:checked { background: var(--pro); border-color: var(--pro); }
+.check-item input:checked::after {
+  content: "";
+  position: absolute;
+  left: 7px; top: 3px;
+  width: 5px; height: 10px;
+  border: solid var(--surface);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+.check-item input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.check-item .task { font-size: 16px; color: var(--ink); }
+.check-item .task small { display: block; font-size: 14px; color: var(--ink-faint); }
+.check-item input:checked ~ .task { color: var(--ink-faint); text-decoration: line-through; text-decoration-color: var(--rule); }
+.check-item input:checked ~ .task small { text-decoration: none; }
+
+.check-item .n {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.check-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding: 16px 20px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--rule);
+}
+.check-count { font-family: Archivo, sans-serif; font-weight: 600; font-size: 15px; }
+.check-count b { color: var(--pro); font-variant-numeric: tabular-nums; }
+.check-reset {
+  appearance: none;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-family: Archivo, sans-serif;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.check-reset:hover { color: var(--ink); border-color: var(--ink-faint); }
+.check-reset:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.track {
+  height: 5px;
+  background: var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.track-fill {
+  height: 100%;
+  width: 0;
+  background: var(--pro);
+  border-radius: 3px;
+  transition: width .25s ease;
+}
+
+@media (max-width: 480px) {
+  .check-item { grid-template-columns: 26px 1fr; }
+  .check-item .n { display: none; }
+}
+
 @media (max-width: 560px) {
   body { font-size: 16px; padding: 0 18px 64px; }
   .step { grid-template-columns: 40px 1fr; gap: 0 14px; }
@@ -635,6 +763,7 @@ footer {
 <nav>
   <a href="#install">Установка</a>
   <a href="#accounts">Аккаунты</a>
+  <a href="#checklist">Чек-лист</a>
   <a href="#later">Дальше вместе</a>
   <a href="#models">Чем работаем</a>
   <a href="#compare">Сравнение</a>
@@ -936,6 +1065,61 @@ footer {
       </a>
     </article>
 
+  </div>
+</section>
+
+<section id="checklist">
+  <h2>Отметь, что уже сделал</h2>
+  <p class="sub">Галочки сохраняются в браузере — можно закрыть страницу и вернуться позже. К занятию нужно, чтобы стояли все семь.</p>
+
+  <div class="track"><div class="track-fill" id="trackFill"></div></div>
+
+  <div class="checklist" id="checklist">
+    <label class="check-item">
+      <input type="checkbox" data-key="happ">
+      <span class="task">Happ установлен, подписка вставлена<small>chatgpt.com открывается</small></span>
+      <span class="n">01</span>
+    </label>
+    <label class="check-item">
+      <input type="checkbox" data-key="vscode">
+      <span class="task">VS Code установлен<small>открывается и показывает стартовый экран</small></span>
+      <span class="n">02</span>
+    </label>
+    <label class="check-item">
+      <input type="checkbox" data-key="docker">
+      <span class="task">Docker Desktop установлен и запущен<small>значок кита не мигает</small></span>
+      <span class="n">03</span>
+    </label>
+    <label class="check-item">
+      <input type="checkbox" data-key="python">
+      <span class="task">Python и расширение Python в VS Code<small>test.py печатает «привет»</small></span>
+      <span class="n">04</span>
+    </label>
+    <label class="check-item">
+      <input type="checkbox" data-key="whisper">
+      <span class="task">Диктовка работает<small>надиктованная фраза появляется текстом</small></span>
+      <span class="n">05</span>
+    </label>
+    <label class="check-item">
+      <input type="checkbox" data-key="gmail">
+      <span class="task">Почта Gmail заведена<small>новый ящик, пароль записан</small></span>
+      <span class="n">06</span>
+    </label>
+    <label class="check-item">
+      <input type="checkbox" data-key="github">
+      <span class="task">Аккаунт GitHub заведён<small>на тот же Gmail, почта подтверждена</small></span>
+      <span class="n">07</span>
+    </label>
+
+    <div class="check-bar">
+      <span class="check-count">Готово: <b id="checkDone">0</b> из 7</span>
+      <button type="button" class="check-reset" id="checkReset">Сбросить</button>
+    </div>
+  </div>
+
+  <div class="note">
+    <p><strong>Застрял — сразу пиши, не сиди.</strong> Установка ломается у всех, это часть процесса, а не признак того, что ты чего-то не понимаешь. Отдельно напиши, если что-то в этой памятке показалось непонятным: перепишу понятнее.</p>
+    <p>Удобнее всего прислать <strong>скриншот того, что видишь на экране</strong>, и написать, на каком шаге остановился: <span class="only-mac">на Mac скриншот делается сочетанием <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>4</kbd></span><span class="only-win">на Windows — клавишей <kbd>Print Screen</kbd> или сочетанием <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></span>.</p>
   </div>
 </section>
 
@@ -1279,6 +1463,44 @@ footer {
       root.setAttribute('data-os', os);
       try { localStorage.setItem('starter-os', os); } catch (e) {}
     });
+  });
+})();
+
+(function () {
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.check-item input'));
+  var doneEl = document.getElementById('checkDone');
+  var fill = document.getElementById('trackFill');
+  if (!boxes.length || !doneEl || !fill) return;
+
+  function read() {
+    try { return JSON.parse(localStorage.getItem('starter-progress') || '{}'); }
+    catch (e) { return {}; }
+  }
+  function write(state) {
+    try { localStorage.setItem('starter-progress', JSON.stringify(state)); } catch (e) {}
+  }
+  function render() {
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    doneEl.textContent = done;
+    fill.style.width = Math.round(done / boxes.length * 100) + '%';
+  }
+
+  var state = read();
+  boxes.forEach(function (b) {
+    b.checked = !!state[b.dataset.key];
+    b.addEventListener('change', function () {
+      var st = read();
+      st[b.dataset.key] = b.checked;
+      write(st);
+      render();
+    });
+  });
+  render();
+
+  document.getElementById('checkReset').addEventListener('click', function () {
+    boxes.forEach(function (b) { b.checked = false; });
+    write({});
+    render();
   });
 })();
 </script>
