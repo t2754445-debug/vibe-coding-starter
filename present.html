@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Занятие: слайды</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Слайды для ведения первого занятия по вайб-кодингу. Стрелки — листать, Esc — все слайды.">
+<meta name="theme-color" content="#14140F">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;700&display=swap">
+
+<style>
+:root {
+  --paper:#FAF9F5; --surface:#FFFFFF; --surface-2:#F2F0E9;
+  --ink:#1B1A16; --ink-soft:#55524A; --ink-faint:#8A8779; --rule:#E2DFD4;
+  --accent:#B8860B; --accent-ink:#7A5A06; --accent-wash:#FBF3DC;
+  --pro:#2F6B4F; --con:#A83A2C;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#121210; --surface:#1A1A17; --surface-2:#232320;
+    --ink:#EDEAE0; --ink-soft:#B0ABA0; --ink-faint:#7E7A70; --rule:#32312C;
+    --accent:#E9B949; --accent-ink:#F2CF7C; --accent-wash:#2A2418;
+    --pro:#7BC49B; --con:#E8887A;
+  }
+}
+:root[data-theme="dark"] {
+  --paper:#121210; --surface:#1A1A17; --surface-2:#232320;
+  --ink:#EDEAE0; --ink-soft:#B0ABA0; --ink-faint:#7E7A70; --rule:#32312C;
+  --accent:#E9B949; --accent-ink:#F2CF7C; --accent-wash:#2A2418;
+  --pro:#7BC49B; --con:#E8887A;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Source Serif 4", Georgia, serif;
+  -webkit-font-smoothing: antialiased; overflow: hidden;
+}
+h1, h2, h3, .kicker, .num, .btn, th { font-family: Archivo, Arial, sans-serif; }
+code, kbd, .cmd, .num { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; }
+
+/* ---------- слайд ---------- */
+.deck { height: 100%; position: relative; }
+.slide {
+  position: absolute; inset: 0;
+  display: none; flex-direction: column; justify-content: center;
+  padding: clamp(32px, 6vw, 90px) clamp(24px, 8vw, 120px) clamp(70px, 9vw, 110px);
+  animation: fade .18s ease;
+}
+.slide.on { display: flex; }
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .slide { animation: none; } }
+
+.inner { max-width: 1100px; width: 100%; margin: 0 auto; }
+
+.kicker {
+  font-size: clamp(11px, 1.1vw, 14px); font-weight: 600; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--accent-ink); margin: 0 0 clamp(14px, 2vw, 26px);
+}
+.slide h1 {
+  font-size: clamp(38px, 6.4vw, 88px); font-weight: 800; letter-spacing: -.035em;
+  line-height: 1.02; margin: 0 0 clamp(16px, 2.4vw, 30px); text-wrap: balance;
+}
+.slide h2 {
+  font-size: clamp(30px, 4.4vw, 60px); font-weight: 800; letter-spacing: -.03em;
+  line-height: 1.06; margin: 0 0 clamp(16px, 2.2vw, 28px); text-wrap: balance;
+}
+.slide h3 {
+  font-size: clamp(20px, 2.2vw, 30px); font-weight: 600; letter-spacing: -.01em;
+  margin: 0 0 12px;
+}
+.lead {
+  font-size: clamp(19px, 2.1vw, 30px); color: var(--ink-soft);
+  line-height: 1.45; max-width: 30ch; margin: 0;
+}
+.lead.wide { max-width: 42ch; }
+.slide p { font-size: clamp(17px, 1.7vw, 24px); color: var(--ink-soft); line-height: 1.5; max-width: 44ch; }
+.slide strong { color: var(--ink); font-weight: 600; }
+.accent { color: var(--accent-ink); }
+
+/* списки */
+.big-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(12px, 1.6vw, 22px); }
+.big-list li {
+  display: grid; grid-template-columns: clamp(38px, 4vw, 56px) 1fr; gap: clamp(12px, 1.6vw, 22px);
+  align-items: baseline; font-size: clamp(18px, 1.9vw, 27px); line-height: 1.35; color: var(--ink);
+}
+.big-list .n {
+  font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--accent);
+  font-size: clamp(16px, 1.6vw, 22px); font-variant-numeric: tabular-nums;
+}
+.big-list small { display: block; font-size: clamp(14px, 1.3vw, 18px); color: var(--ink-faint); margin-top: 4px; font-family: "Source Serif 4", serif; }
+
+.dots { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(10px, 1.4vw, 18px); }
+.dots li {
+  font-size: clamp(17px, 1.8vw, 25px); line-height: 1.4; color: var(--ink-soft);
+  padding-left: clamp(20px, 2vw, 30px); position: relative;
+}
+.dots li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+
+/* команда */
+.cmd {
+  display: block; background: var(--surface-2); border-left: 4px solid var(--accent);
+  padding: clamp(14px, 1.8vw, 24px) clamp(16px, 2vw, 26px);
+  font-size: clamp(14px, 1.5vw, 21px); white-space: pre-wrap; word-break: break-word;
+  border-radius: 0 6px 6px 0; margin: clamp(14px, 2vw, 24px) 0 0; color: var(--ink); line-height: 1.5;
+}
+.cmd.say { border-left-color: var(--pro); }
+
+/* таблица */
+table { border-collapse: collapse; width: 100%; font-size: clamp(15px, 1.5vw, 21px); }
+th, td { padding: clamp(9px, 1.1vw, 15px) clamp(10px, 1.4vw, 20px); text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-size: clamp(11px, 1vw, 14px); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
+tbody tr:last-child td { border-bottom: none; }
+td:first-child { font-weight: 600; color: var(--ink); }
+.t-wrap { border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); overflow: hidden; }
+
+/* карточки */
+.cols { display: grid; gap: clamp(14px, 1.8vw, 26px); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.col {
+  background: var(--surface); border: 1px solid var(--rule); border-top: 4px solid var(--accent);
+  border-radius: 0 0 8px 8px; padding: clamp(16px, 2vw, 26px);
+}
+.col h3 { font-size: clamp(17px, 1.7vw, 23px); margin-bottom: 8px; }
+.col p { font-size: clamp(15px, 1.4vw, 19px); margin: 0; max-width: none; }
+
+/* плашка-цитата */
+.punch {
+  border-left: 5px solid var(--accent); padding-left: clamp(18px, 2.4vw, 34px);
+  font-size: clamp(24px, 3.2vw, 46px); font-weight: 600; line-height: 1.2;
+  letter-spacing: -.02em; color: var(--ink); max-width: 26ch;
+}
+.punch small { display: block; font-size: clamp(15px, 1.5vw, 21px); font-weight: 400; color: var(--ink-soft); margin-top: clamp(12px, 1.6vw, 20px); line-height: 1.45; max-width: 40ch; }
+
+kbd { font-size: .8em; padding: 3px 8px; border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 5px; background: var(--surface-2); white-space: nowrap; }
+
+/* перерыв */
+.break-slide { align-items: center; text-align: center; justify-content: center; }
+.break-slide .inner { display: flex; flex-direction: column; align-items: center; }
+.break-slide h1 { font-size: clamp(44px, 8vw, 110px); }
+
+/* ---------- шасси ---------- */
+.bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); width: 0; transition: width .2s ease; z-index: 20; }
+
+.hud {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 15;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 14px clamp(18px, 4vw, 44px);
+  font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--ink-faint);
+  background: linear-gradient(to top, var(--paper) 60%, transparent);
+  pointer-events: none;
+}
+.hud .where { display: flex; gap: 18px; align-items: baseline; }
+.hud .block-name { color: var(--accent-ink); }
+.hud .hint { opacity: .75; }
+.hud a { pointer-events: auto; color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.hud a:hover { color: var(--ink); }
+
+.nav-zone { position: fixed; top: 0; bottom: 46px; width: 22%; z-index: 10; cursor: pointer; }
+.nav-zone.prev { left: 0; }
+.nav-zone.next { right: 0; }
+
+/* сетка слайдов */
+.grid-view {
+  position: fixed; inset: 0; z-index: 30; background: var(--paper);
+  overflow-y: auto; padding: clamp(20px, 4vw, 48px); display: none;
+}
+.grid-view.on { display: block; }
+.grid-view h2 { font-family: Archivo, sans-serif; font-size: 22px; font-weight: 800; margin: 0 0 20px; }
+.grid {
+  display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+.thumb {
+  border: 1px solid var(--rule); border-radius: 6px; background: var(--surface);
+  padding: 12px 14px; cursor: pointer; text-align: left; font: inherit; color: inherit;
+}
+.thumb:hover { border-color: var(--accent); }
+.thumb .tn { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--accent-ink); }
+.thumb .tt { font-family: Archivo, sans-serif; font-weight: 600; font-size: 14px; margin-top: 4px; line-height: 1.25; }
+.thumb .tb { font-size: 12px; color: var(--ink-faint); margin-top: 4px; }
+
+@media (max-width: 700px) {
+  .nav-zone { width: 30%; }
+  .hud .hint { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bar" id="bar"></div>
+
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide" data-block="Старт">
+  <div class="inner">
+    <p class="kicker">Первое занятие · 5 часов</p>
+    <h1>Погнали</h1>
+    <p class="lead wide">К концу дня у тебя будет работающая программа, которую написал ты — по своему плану, на своих данных.</p>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-block="Старт">
+  <div class="inner">
+    <p class="kicker">План на сегодня</p>
+    <div class="t-wrap">
+      <table>
+        <tbody>
+          <tr><td>30 мин</td><td>Настроим рабочее место</td></tr>
+          <tr><td>45 мин</td><td>Разберёмся, как работает агент</td></tr>
+          <tr><td>60 мин</td><td>Продумаем твою задачу до кода</td></tr>
+          <tr><td>45 мин</td><td>Архитектура: где что лежит</td></tr>
+          <tr><td>55 мин</td><td>Соберём программу</td></tr>
+          <tr><td>30 мин</td><td>Настроим всё под тебя</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-block="0 · Настройка">
+  <div class="inner">
+    <p class="kicker">Блок 0 · 30 минут</p>
+    <h2>Настраиваем рабочее место</h2>
+    <p class="lead">Всё в одном окне: файлы, код, агент, терминал.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-block="0 · Настройка">
+  <div class="inner">
+    <p class="kicker">Первая команда агенту</p>
+    <h3>Открываем папку starter-kit в VS Code и говорим:</h3>
+    <code class="cmd say">Прочитай SETUP.md и выполни всё, что там написано.</code>
+    <p style="margin-top:24px">Дальше он ставит всё сам. Твоё дело — отвечать «да».</p>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-block="0 · Настройка">
+  <div class="inner">
+    <p class="kicker">Что запомнить</p>
+    <ul class="dots">
+      <li>Терминал открывается <kbd>Ctrl</kbd> + <kbd>`</kbd> — клавиша с буквой «ё»</li>
+      <li>Пароль вводится вслепую: символы не показываются. Это нормально</li>
+      <li>Файл <code>CLAUDE.md</code> — правила для агента во всех проектах</li>
+    </ul>
+    <div class="punch" style="margin-top:40px">Разница между «агент пишет мусор» и «агент пишет то, что нужно» на 80% в этом файле.</div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-block="1 · Агент">
+  <div class="inner">
+    <p class="kicker">Блок 1 · 45 минут</p>
+    <h2>Как работает агент</h2>
+    <p class="lead">И чем он отличается от чата в браузере.</p>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-block="1 · Агент">
+  <div class="inner">
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th></th><th>Чат в браузере</th><th>Агент в VS Code</th></tr></thead>
+        <tbody>
+          <tr><td>Видит</td><td>Только вставленное</td><td>Все файлы проекта</td></tr>
+          <tr><td>Делает</td><td>Пишет текст</td><td>Создаёт файлы, запускает команды</td></tr>
+          <tr><td>Проверяет</td><td>Ничего</td><td>Запускает и смотрит результат</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-block="1 · Агент">
+  <div class="inner">
+    <div class="punch">Агент — исполнитель, а не волшебник.
+      <small>Скажешь «сделай сайт» — сделает какой-то сайт. Он будет выглядеть законченным. И будет не тем.</small>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-block="1 · Агент">
+  <div class="inner">
+    <p class="kicker">Практика · первый проект</p>
+    <code class="cmd">mkdir -p ~/Projects/hello-vibe
+cd ~/Projects/hello-vibe
+code .
+git init</code>
+    <p style="margin-top:22px">Дальше задачу агенту — <strong>голосом</strong>, не печатая:</p>
+    <code class="cmd say">Сделай одностраничный сайт-визитку на HTML и CSS.
+Моё имя, короткое описание, три ссылки.
+Тёмная тема, шрифт без засечек. Открой в браузере.</code>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-block="1 · Агент">
+  <div class="inner">
+    <p class="kicker">Важнейший момент занятия</p>
+    <h2>Сохраняем версию</h2>
+    <code class="cmd">git add .
+git commit -m "Первая версия визитки"</code>
+    <p style="margin-top:24px">Это кнопка <strong>«отменить»</strong> на весь проект целиком.</p>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-block="1 · Агент">
+  <div class="inner">
+    <p class="kicker">Проверим на деле</p>
+    <h3>Просим агента всё испортить:</h3>
+    <code class="cmd say">Поменяй всё на розовое и добавь побольше анимации.</code>
+    <p style="margin-top:24px">Ужасаемся. И возвращаем одной командой:</p>
+    <code class="cmd">git checkout .</code>
+    <p style="margin-top:20px"><strong>Вот ради этого и делаются коммиты.</strong></p>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide break-slide" data-block="Перерыв">
+  <div class="inner">
+    <p class="kicker">10 минут</p>
+    <h1>Перерыв</h1>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-block="2 · Мышление">
+  <div class="inner">
+    <p class="kicker">Блок 2 · 60 минут · главный</p>
+    <h2>Думаем до кода</h2>
+    <p class="lead">Здесь решается, получится программа или три часа переделок.</p>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-block="2 · Мышление">
+  <div class="inner">
+    <p class="kicker">Цена ошибки</p>
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>Когда заметил</th><th>Сколько стоит исправить</th></tr></thead>
+        <tbody>
+          <tr><td>В голове</td><td>5 минут</td></tr>
+          <tr><td>В спецификации</td><td>15 минут</td></tr>
+          <tr><td>В свежем коде</td><td>час</td></tr>
+          <tr><td>На полпроекта</td><td>день или переписывание с нуля</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-block="2 · Мышление">
+  <div class="inner">
+    <p class="kicker">Пять вопросов до первой строки</p>
+    <ul class="big-list">
+      <li><span class="n">01</span><span>Что делает — одно предложение <strong>без «и»</strong></span></li>
+      <li><span class="n">02</span><span>Кто пользуется и как часто</span></li>
+      <li><span class="n">03</span><span>Что на входе, что на выходе<small>С реальным примером данных. Половина багов — от того, что данные оказались не такими</small></span></li>
+      <li><span class="n">04</span><span>Чего программа <strong>НЕ</strong> делает<small>Без границ агент добавит «полезного» сверх задачи — и это придётся поддерживать</small></span></li>
+      <li><span class="n">05</span><span>Как понять, что готово</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-block="2 · Мышление">
+  <div class="inner">
+    <p class="kicker">Практика · берём твою настоящую задачу</p>
+    <code class="cmd say">Помоги продумать программу. Не пиши код.
+
+Задача: [рассказываешь своими словами, голосом]
+
+Задай мне вопросы, которые нужно прояснить до начала.
+По одному, жди ответа.
+Когда вопросов не останется — собери SPEC.md.</code>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-block="2 · Мышление">
+  <div class="inner">
+    <div class="punch">Агент задаст вопросы, о которых ты не думал.
+      <small>«А что делать, если в файле дубликаты?» — а ты и не знал, что они там бывают. Ради этого разговора всё и затевается.</small>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-block="2 · Мышление">
+  <div class="inner">
+    <p class="kicker">Два файла на выходе</p>
+    <div class="cols">
+      <article class="col">
+        <h3>SPEC.md</h3>
+        <p>Что программа делает и чего не делает. Поведение, без кода. По этому тексту программу можно написать однозначно.</p>
+      </article>
+      <article class="col">
+        <h3>PLAN.md</h3>
+        <p>Шаги. У каждого — проверяемый результат. Каждый шаг заканчивается чем-то работающим.</p>
+      </article>
+    </div>
+    <code class="cmd">git add . && git commit -m "Спецификация и план"</code>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-block="3 · Архитектура">
+  <div class="inner">
+    <p class="kicker">Блок 3 · 45 минут</p>
+    <h2>Где что должно лежать</h2>
+    <p class="lead">Архитектура — это не диаграммы. Это ответ на вопрос, кто с кем разговаривает.</p>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-block="3 · Архитектура">
+  <div class="inner">
+    <p class="kicker">Пять принципов</p>
+    <ul class="big-list">
+      <li><span class="n">01</span><span>Раздели ввод, логику и вывод<small>Поменялся формат файла — правишь одно место</small></span></li>
+      <li><span class="n">02</span><span>Одна функция — одно дело<small>В описании появилось «и» — надо разделить</small></span></li>
+      <li><span class="n">03</span><span>Настройки отдельно от кода<small>Ключи только в .env, .env только в .gitignore</small></span></li>
+      <li><span class="n">04</span><span>Данные в одном месте<small>Лестница: .env → JSON → SQLite → PostgreSQL. Через ступени не прыгать</small></span></li>
+      <li><span class="n">05</span><span>Границы с внешним миром<small>Всё, что ходит в сеть, живёт отдельно и предполагает отказ</small></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="slide" data-block="3 · Архитектура">
+  <div class="inner">
+    <p class="kicker">Три вопроса для проверки</p>
+    <ul class="dots">
+      <li>Поменяется формат входного файла — <strong>сколько файлов править?</strong></li>
+      <li>Можно ли проверить расчёт <strong>без Excel и интернета?</strong></li>
+      <li>Найду ли я через месяц главную формулу <strong>за минуту?</strong></li>
+    </ul>
+    <p style="margin-top:36px">Эти же вопросы можно задать агенту — раз в неделю, по структуре проекта.</p>
+  </div>
+</section>
+
+<!-- 22 -->
+<section class="slide break-slide" data-block="Перерыв">
+  <div class="inner">
+    <p class="kicker">15 минут</p>
+    <h1>Перерыв</h1>
+  </div>
+</section>
+
+<!-- 23 -->
+<section class="slide" data-block="4 · Собираем">
+  <div class="inner">
+    <p class="kicker">Блок 4 · 55 минут</p>
+    <h2>Собираем программу</h2>
+    <p class="lead">По одному шагу из плана. Не больше.</p>
+    <code class="cmd say">Прочитай SPEC.md и PLAN.md.
+Сделай шаг 1. Только его. Остановись и покажи результат.</code>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="slide" data-block="4 · Собираем">
+  <div class="inner">
+    <p class="kicker">Цикл одного шага</p>
+    <ul class="big-list">
+      <li><span class="n">01</span><span>Попросил сделать один шаг</span></li>
+      <li><span class="n">02</span><span>Запустил, посмотрел результат своими глазами</span></li>
+      <li><span class="n">03</span><span>Прогнал на кривых данных</span></li>
+      <li><span class="n">04</span><span>Запустил ревью вторым агентом</span></li>
+      <li><span class="n">05</span><span>Попросил объяснить логику простыми словами</span></li>
+      <li><span class="n">06</span><span>Закоммитил</span></li>
+    </ul>
+    <p style="margin-top:26px"><strong>Ни одного пункта, где нужно уметь читать код.</strong></p>
+  </div>
+</section>
+
+<!-- 25 -->
+<section class="slide" data-block="4 · Собираем">
+  <div class="inner">
+    <div class="punch">Читать код не нужно. Нужно ревью.
+      <small>Тот, кто писал код, не может его проверять — он проверяет свою логику своей же логикой. Нужен второй.</small>
+    </div>
+    <code class="cmd">/code-review</code>
+  </div>
+</section>
+
+<!-- 26 -->
+<section class="slide" data-block="4 · Собираем">
+  <div class="inner">
+    <p class="kicker">Ревью вручную · работает в любом агенте</p>
+    <code class="cmd say">Посмотри изменения, которые мы только что сделали.
+Найди: ошибки, места, где программа упадёт на нестандартных данных,
+забытые ключи и пароли в коде, лишние усложнения.
+
+Ничего не исправляй. Просто перечисли списком, с файлом и строкой.</code>
+    <p style="margin-top:24px">Дальше <strong>решаешь ты</strong>: это почини, это объясни, это не трогай — так задумано.</p>
+  </div>
+</section>
+
+<!-- 27 -->
+<section class="slide" data-block="4 · Собираем">
+  <div class="inner">
+    <p class="kicker">Обязательная проверка</p>
+    <h2>Ломаем данные специально</h2>
+    <code class="cmd say">Сделай копию моего файла и испорти её: удали пару значений,
+в одну цену впиши текст, продублируй строку.
+Прогони программу на копии и покажи, что произошло.</code>
+    <div class="punch" style="margin-top:32px">Программа, которая работает только на идеальных данных, не работает.</div>
+  </div>
+</section>
+
+<!-- 28 -->
+<section class="slide" data-block="5 · Под себя">
+  <div class="inner">
+    <p class="kicker">Блок 5 · 30 минут</p>
+    <h2>Настраиваем под себя</h2>
+    <ul class="dots" style="margin-top:20px">
+      <li><code>CLAUDE.md</code> — правила поведения агента. Живой файл, дописывается после каждой ошибки</li>
+      <li><strong>Скилл</strong> — знание под конкретный тип задач. Подключается сам, когда подходит</li>
+      <li><code>context7</code> — свежая документация библиотек вместо памяти модели</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 29 -->
+<section class="slide" data-block="5 · Под себя">
+  <div class="inner">
+    <div class="punch">Правило, записанное после своей ошибки, ценнее десяти скачанных из интернета.
+      <small>Добавь в CLAUDE.md прямо сейчас то, что раздражало за сегодня.</small>
+    </div>
+  </div>
+</section>
+
+<!-- 30 -->
+<section class="slide" data-block="5 · Под себя">
+  <div class="inner">
+    <p class="kicker">Какую модель когда брать</p>
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>Задача</th><th>Модель</th></tr></thead>
+        <tbody>
+          <tr><td>Переименовать, отформатировать, быстрый вопрос</td><td>Быстрая и дешёвая</td></tr>
+          <tr><td>Обычная разработка, отладка</td><td>Средняя</td></tr>
+          <tr><td>Архитектура, сложная логика, запутанный код</td><td>Самая сильная</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:26px">Начинай со средней. Поднимай уровень, когда буксует.</p>
+  </div>
+</section>
+
+<!-- 31 -->
+<section class="slide" data-block="6 · Итоги">
+  <div class="inner">
+    <p class="kicker">Домашнее задание</p>
+    <ul class="big-list">
+      <li><span class="n">01</span><span>Довести сегодняшнюю программу до конца плана<small>Каждый шаг — ревью и коммит</small></span></li>
+      <li><span class="n">02</span><span>Второй проект с нуля<small>Пять вопросов → SPEC → PLAN → код. Взять что-то маленькое</small></span></li>
+      <li><span class="n">03</span><span>Записать три правила в свой CLAUDE.md<small>Из того, что раздражало за неделю</small></span></li>
+      <li><span class="n">04</span><span>Выложить проект на GitHub<small>Проверить, что .env туда не уехал</small></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 32 -->
+<section class="slide" data-block="6 · Итоги">
+  <div class="inner">
+    <p class="kicker">Три мысли, ради которых всё занятие</p>
+    <div class="cols">
+      <article class="col">
+        <h3>Час на продумывание экономит день на переделках</h3>
+        <p>Пять вопросов до первой строки кода.</p>
+      </article>
+      <article class="col">
+        <h3>По одному шагу</h3>
+        <p>В большом запросе ошибка находится в конце, в маленьком — сразу.</p>
+      </article>
+      <article class="col">
+        <h3>Не читаешь код — ставь ревью</h3>
+        <p>Один пишет, второй проверяет. Твоё дело — решения по списку проблем.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 33 -->
+<section class="slide break-slide" data-block="Финал">
+  <div class="inner">
+    <p class="kicker">На сегодня всё</p>
+    <h1>Работает?<br>Значит, погнали дальше</h1>
+  </div>
+</section>
+
+</div>
+
+<div class="nav-zone prev" id="zPrev" title="Назад"></div>
+<div class="nav-zone next" id="zNext" title="Вперёд"></div>
+
+<div class="hud">
+  <span class="where">
+    <span class="num"><span id="cur">1</span> / <span id="tot">33</span></span>
+    <span class="block-name" id="blockName"></span>
+  </span>
+  <span class="where">
+    <span class="hint">← → листать · Esc все слайды · F во весь экран</span>
+    <a href="course.html">Подробная программа</a>
+  </span>
+</div>
+
+<div class="grid-view" id="gridView">
+  <h2>Все слайды</h2>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var bar = document.getElementById('bar');
+  var cur = document.getElementById('cur');
+  var tot = document.getElementById('tot');
+  var blockName = document.getElementById('blockName');
+  var gridView = document.getElementById('gridView');
+  var grid = document.getElementById('grid');
+  var i = 0;
+
+  tot.textContent = slides.length;
+
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+    bar.style.width = ((i + 1) / slides.length * 100) + '%';
+    cur.textContent = i + 1;
+    blockName.textContent = slides[i].dataset.block || '';
+    try { localStorage.setItem('present-slide', String(i)); } catch (e) {}
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+
+  function toggleGrid(force) {
+    var on = force !== undefined ? force : !gridView.classList.contains('on');
+    gridView.classList.toggle('on', on);
+  }
+
+  // сетка слайдов
+  slides.forEach(function (s, k) {
+    var h = s.querySelector('h1, h2, h3, .punch');
+    var b = document.createElement('button');
+    b.className = 'thumb';
+    b.innerHTML = '<div class="tn">' + (k + 1) + '</div>' +
+                  '<div class="tt">' + (h ? h.textContent.split('\n')[0].slice(0, 60) : '—') + '</div>' +
+                  '<div class="tb">' + (s.dataset.block || '') + '</div>';
+    b.addEventListener('click', function () { show(k); toggleGrid(false); });
+    grid.appendChild(b);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(i + 1); toggleGrid(false); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); toggleGrid(false); }
+    else if (e.key === 'Home') { show(0); }
+    else if (e.key === 'End') { show(slides.length - 1); }
+    else if (e.key === 'Escape') { toggleGrid(); }
+    else if (e.key === 'f' || e.key === 'F' || e.key === 'а' || e.key === 'А') {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+    }
+  });
+
+  document.getElementById('zNext').addEventListener('click', function () { show(i + 1); });
+  document.getElementById('zPrev').addEventListener('click', function () { show(i - 1); });
+
+  // свайпы
+  var x0 = null;
+  document.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 50) show(dx < 0 ? i + 1 : i - 1);
+    x0 = null;
+  }, { passive: true });
+
+  // старт: из адреса, иначе с сохранённого места
+  var start = 0;
+  var fromHash = parseInt((location.hash || '').replace('#', ''), 10);
+  if (fromHash > 0) start = fromHash - 1;
+  else { try { start = parseInt(localStorage.getItem('present-slide') || '0', 10) || 0; } catch (e) {} }
+  show(start);
+})();
+</script>
+</body>
+</html>
