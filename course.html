@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Первое занятие по вайб-кодингу</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Программа первого занятия на 5 часов: настройка, мышление до кода, архитектура, первая рабочая программа.">
+<meta name="theme-color" content="#14140F">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://t2754445-debug.github.io/vibe-coding-starter/course.html">
+<meta property="og:title" content="Первое занятие по вайб-кодингу — 5 часов">
+<meta property="og:description" content="Шесть блоков с таймингом: настройка, работа с агентом, мышление до кода, архитектура, своя программа, настройка окружения.">
+<meta property="og:image" content="https://t2754445-debug.github.io/vibe-coding-starter/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;700&display=swap">
+
+<style>
+:root {
+  --paper:#FAF9F5; --surface:#FFFFFF; --surface-2:#F2F0E9;
+  --ink:#1B1A16; --ink-soft:#55524A; --ink-faint:#8A8779; --rule:#E2DFD4;
+  --accent:#B8860B; --accent-ink:#7A5A06; --accent-wash:#FBF3DC;
+  --pro:#2F6B4F; --con:#A83A2C;
+  --shadow:0 1px 2px rgba(27,26,22,.05), 0 8px 24px -16px rgba(27,26,22,.25);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#121210; --surface:#1A1A17; --surface-2:#232320;
+    --ink:#EDEAE0; --ink-soft:#B0ABA0; --ink-faint:#7E7A70; --rule:#32312C;
+    --accent:#E9B949; --accent-ink:#F2CF7C; --accent-wash:#2A2418;
+    --pro:#7BC49B; --con:#E8887A;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"] {
+  --paper:#121210; --surface:#1A1A17; --surface-2:#232320;
+  --ink:#EDEAE0; --ink-soft:#B0ABA0; --ink-faint:#7E7A70; --rule:#32312C;
+  --accent:#E9B949; --accent-ink:#F2CF7C; --accent-wash:#2A2418;
+  --pro:#7BC49B; --con:#E8887A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 17px; line-height: 1.62; margin: 0; padding: 0 24px 96px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 880px; margin: 0 auto; }
+h1, h2, h3, h4, .label, .time, nav a, th, .goal-label { font-family: Archivo, Arial, sans-serif; }
+code, kbd, .cmd, .time { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; }
+kbd {
+  font-size: 12.5px; padding: 2px 6px; border: 1px solid var(--rule);
+  border-bottom-width: 2px; border-radius: 4px; background: var(--surface-2); white-space: nowrap;
+}
+a { color: var(--accent-ink); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+header { padding: 64px 0 32px; border-bottom: 2px solid var(--ink); }
+.label {
+  font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--accent-ink); margin: 0 0 18px;
+}
+h1 {
+  font-size: clamp(36px, 6vw, 60px); font-weight: 800; letter-spacing: -.03em;
+  line-height: 1.03; text-wrap: balance; margin: 0 0 18px;
+}
+.deck { font-size: 19.5px; color: var(--ink-soft); max-width: 62ch; margin: 0 0 26px; }
+.meta {
+  display: flex; flex-wrap: wrap; gap: 12px 26px;
+  font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--ink-faint);
+}
+.backlink { display: inline-block; margin-top: 22px; font-family: Archivo, sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--accent); }
+.backlink::before { content: "← "; color: var(--accent); }
+
+section { margin-bottom: 64px; scroll-margin-top: 24px; }
+h2 {
+  font-size: clamp(25px, 3.4vw, 32px); font-weight: 800; letter-spacing: -.02em;
+  line-height: 1.14; text-wrap: balance; margin: 56px 0 10px;
+}
+h2 + .sub { color: var(--ink-soft); max-width: 64ch; margin: 0 0 30px; }
+h3 { font-size: 19px; font-weight: 600; margin: 0; }
+p { max-width: 68ch; }
+
+/* карта занятия */
+.map { border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+.map-row {
+  display: grid; grid-template-columns: 110px 1fr 1.1fr; gap: 4px 18px;
+  padding: 13px 18px; border-bottom: 1px solid var(--rule); align-items: baseline;
+}
+.map-row:last-child { border-bottom: none; }
+.map-row.break { background: var(--surface-2); color: var(--ink-faint); font-style: italic; }
+.map-row .time { font-size: 13px; color: var(--accent-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.map-row .name { font-family: Archivo, sans-serif; font-weight: 600; font-size: 15.5px; }
+.map-row .out { font-size: 14.5px; color: var(--ink-soft); }
+@media (max-width: 640px) {
+  .map-row { grid-template-columns: 1fr; gap: 2px; }
+  .map-row .time { font-size: 12px; }
+}
+
+/* блоки */
+.block {
+  border: 1px solid var(--rule); border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0; background: var(--surface);
+  padding: 24px 26px; margin-bottom: 22px; box-shadow: var(--shadow);
+}
+.block-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin-bottom: 6px; }
+.block .time {
+  font-size: 12px; letter-spacing: .05em; background: var(--accent-wash); color: var(--accent-ink);
+  padding: 4px 9px; border-radius: 3px; white-space: nowrap;
+}
+.goal {
+  display: block; font-size: 15px; color: var(--ink-soft);
+  border-left: 2px solid var(--pro); padding-left: 12px; margin: 12px 0 16px;
+}
+.goal-label { font-weight: 600; color: var(--pro); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; display: block; }
+.block h4 {
+  font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 20px 0 10px;
+}
+.block ul, .block ol { margin: 0 0 14px; padding-left: 20px; color: var(--ink-soft); display: flex; flex-direction: column; gap: 7px; }
+.block li::marker { color: var(--accent); }
+.block ul strong, .block ol strong, .block p strong { color: var(--ink); font-weight: 600; }
+.block p { margin: 0 0 12px; color: var(--ink-soft); }
+.block > *:last-child { margin-bottom: 0; }
+
+.cmd {
+  display: block; overflow-x: auto; background: var(--surface-2); border-left: 3px solid var(--accent);
+  padding: 11px 14px; font-size: 13.5px; white-space: pre; border-radius: 0 4px 4px 0;
+  margin: 0 0 14px; color: var(--ink);
+}
+.check {
+  background: var(--accent-wash); border-radius: 5px; padding: 12px 16px; font-size: 15px; margin-top: 16px;
+}
+.check strong { color: var(--accent-ink); }
+
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
+th, td { padding: 11px 15px; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-size: 11.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); background: var(--surface-2); white-space: nowrap; }
+tbody tr:last-child td { border-bottom: none; }
+td:first-child { font-family: Archivo, sans-serif; font-weight: 600; }
+
+.note { background: var(--accent-wash); border-radius: 6px; padding: 20px 24px; margin: 28px 0 0; }
+.note p { margin: 0; max-width: 70ch; }
+.note p + p { margin-top: 10px; }
+
+.ideas { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.idea { border-top: 3px solid var(--accent); border-radius: 4px; background: var(--surface); border: 1px solid var(--rule); border-top: 3px solid var(--accent); padding: 18px 20px; }
+.idea h3 { font-size: 16.5px; margin-bottom: 8px; }
+.idea p { font-size: 14.5px; color: var(--ink-soft); margin: 0; }
+
+.files { display: flex; flex-direction: column; }
+.file-row {
+  display: grid; grid-template-columns: minmax(180px, 280px) 1fr; gap: 3px 20px;
+  padding: 12px 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+}
+.file-row:first-child { border-top: 1px solid var(--rule); }
+.file-row .path { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--accent-ink); word-break: break-all; }
+.file-row .what { font-size: 14.5px; color: var(--ink-soft); }
+@media (max-width: 640px) { .file-row { grid-template-columns: 1fr; } }
+
+footer {
+  border-top: 2px solid var(--ink); padding-top: 20px; margin-top: 72px;
+  font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--ink-faint);
+}
+@media (max-width: 560px) { body { font-size: 16px; padding: 0 18px 64px; } .block { padding: 20px 18px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Программа занятия</p>
+  <h1>Первое занятие: пять часов</h1>
+  <p class="deck">Шесть блоков с таймингом. На выходе — работающая программа, написанная своими руками по собственному плану, и понимание, почему она устроена именно так.</p>
+  <div class="meta">
+    <span>5 часов · 2 перерыва</span>
+    <span>Формат: очно, за одним компьютером</span>
+    <span>Обновлено: август 2026</span>
+  </div>
+  <a class="backlink" href="index.html">К установке программ</a>
+</header>
+
+<section>
+  <h2 style="margin-top:48px">Что должно быть готово заранее</h2>
+  <p class="sub">Если что-то не установлено — первый блок растянется, и на практику времени не хватит.</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Что</th><th>Проверка</th></tr></thead>
+      <tbody>
+        <tr><td>VPN (Happ)</td><td>chatgpt.com открывается</td></tr>
+        <tr><td>VS Code</td><td>Открывается, есть терминал внизу</td></tr>
+        <tr><td>Docker</td><td>Запущен, значок кита не мигает</td></tr>
+        <tr><td>Python</td><td><code>python3 --version</code> отвечает 3.12+</td></tr>
+        <tr><td>Диктовка</td><td>Надиктованная фраза появляется текстом</td></tr>
+        <tr><td>Аккаунты</td><td>Gmail и GitHub заведены</td></tr>
+        <tr><td>Подписка</td><td>ChatGPT Plus оплачен, Codex доступен</td></tr>
+        <tr><td>Материалы</td><td>Папка <code>starter-kit</code> распакована на компьютере</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Карта занятия</h2>
+  <div class="map">
+    <div class="map-row"><span class="time">0:00–0:30</span><span class="name">Настройка места</span><span class="out">Всё запускается, агент отвечает</span></div>
+    <div class="map-row"><span class="time">0:30–1:15</span><span class="name">Работа с агентом</span><span class="out">Первый проект в Git, сайт-визитка</span></div>
+    <div class="map-row break"><span class="time">1:15–1:25</span><span class="name">Перерыв</span><span class="out"></span></div>
+    <div class="map-row"><span class="time">1:25–2:25</span><span class="name">Мышление до кода</span><span class="out">SPEC.md и PLAN.md своей задачи</span></div>
+    <div class="map-row"><span class="time">2:25–3:10</span><span class="name">Архитектура</span><span class="out">Понимание, где что должно лежать</span></div>
+    <div class="map-row break"><span class="time">3:10–3:25</span><span class="name">Перерыв</span><span class="out"></span></div>
+    <div class="map-row"><span class="time">3:25–4:20</span><span class="name">Собираем программу</span><span class="out">Работающая программа по своему плану</span></div>
+    <div class="map-row"><span class="time">4:20–4:50</span><span class="name">Настройка под себя</span><span class="out">CLAUDE.md, свой скилл, context7</span></div>
+    <div class="map-row"><span class="time">4:50–5:00</span><span class="name">Итоги</span><span class="out">Домашнее задание на неделю</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Блоки подробно</h2>
+
+  <article class="block">
+    <div class="block-head"><h3>0 · Настройка рабочего места</h3><span class="time">30 мин</span></div>
+    <span class="goal"><span class="goal-label">Цель</span>Агент отвечает в терминале VS Code, всё установлено.</span>
+
+    <h4>Что делаем</h4>
+    <ol>
+      <li>Показываем четыре зоны VS Code: файлы слева, код в центре, агент справа, терминал внизу (<kbd>Ctrl</kbd> + <kbd>`</kbd>).</li>
+      <li>Открываем папку <code>starter-kit</code>.</li>
+      <li>Даём Codex первую команду — дальше он всё делает сам:</li>
+    </ol>
+    <code class="cmd">Прочитай SETUP.md и выполни всё, что там написано.</code>
+
+    <h4>Что проговорить</h4>
+    <ul>
+      <li>Пароль в терминале вводится вслепую — символы не показываются, это нормально.</li>
+      <li><strong>CLAUDE.md — не украшение.</strong> Разница между «агент пишет мусор» и «агент пишет то, что нужно» на 80% состоит из этого файла.</li>
+    </ul>
+
+    <div class="check"><strong>Пройдено, если:</strong> ученик сам открыл терминал и получил ответ на <code>python3 --version</code>.</div>
+  </article>
+
+  <article class="block">
+    <div class="block-head"><h3>1 · Как устроена работа с агентом</h3><span class="time">45 мин</span></div>
+    <span class="goal"><span class="goal-label">Цель</span>Понимает разницу между чатом и агентом. Сделал первый проект и первый откат.</span>
+
+    <h4>Теория — 15 минут</h4>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th></th><th>Чат в браузере</th><th>Агент в VS Code</th></tr></thead>
+        <tbody>
+          <tr><td>Видит</td><td>Только вставленное</td><td>Все файлы проекта</td></tr>
+          <tr><td>Делает</td><td>Пишет текст</td><td>Создаёт файлы, запускает команды</td></tr>
+          <tr><td>Проверяет</td><td>Ничего</td><td>Запускает и смотрит результат</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:14px"><strong>Главная мысль:</strong> агент — исполнитель, а не волшебник. Скажешь «сделай сайт» — сделает какой-то сайт. Он будет выглядеть законченным. И будет не тем.</p>
+
+    <h4>Практика — 30 минут</h4>
+    <code class="cmd">mkdir -p ~/Projects/hello-vibe
+cd ~/Projects/hello-vibe
+code .
+git init</code>
+    <p>Ученик надиктовывает голосом задачу — сайт-визитка, тёмная тема, три ссылки. Смотрим результат, коммитим:</p>
+    <code class="cmd">git add .
+git commit -m "Первая версия визитки"</code>
+    <p><strong>Ключевой момент занятия:</strong> просим агента всё сломать («поменяй на розовое, добавь анимацию»), ужасаемся, откатываемся одной командой:</p>
+    <code class="cmd">git checkout .</code>
+
+    <div class="check"><strong>Пройдено, если:</strong> ученик сам сделал коммит и сам откатился. Понял, зачем.</div>
+  </article>
+
+  <article class="block">
+    <div class="block-head"><h3>2 · Мышление до кода</h3><span class="time">60 мин</span><span class="time">главный блок</span></div>
+    <span class="goal"><span class="goal-label">Цель</span>На руках SPEC.md и PLAN.md собственной, не учебной задачи.</span>
+
+    <h4>Теория — 20 минут</h4>
+    <p>Цена ошибки: в голове — 5 минут, в спецификации — 15 минут, в свежем коде — час, на полпроекта — день или переписывание.</p>
+    <p><strong>Пять вопросов до первой строки:</strong></p>
+    <ol>
+      <li>Что делает — одно предложение <strong>без «и»</strong></li>
+      <li>Кто пользуется и как часто</li>
+      <li>Что на входе, что на выходе — <strong>с реальным примером данных</strong></li>
+      <li>Чего программа <strong>НЕ</strong> делает</li>
+      <li>Как понять, что готово</li>
+    </ol>
+    <p>Третий вопрос — потому что половина багов от того, что данные оказались не такими. Четвёртый — потому что без границ агент добавит «полезного» сверх задачи, и это придётся поддерживать.</p>
+
+    <h4>Практика — 40 минут</h4>
+    <p>Берём <strong>реальную</strong> задачу ученика: что-то, что он сейчас делает руками. Считает в Excel, переименовывает файлы, ведёт учёт.</p>
+    <code class="cmd">Помоги продумать программу. Не пиши код.
+
+Задача: [описывает своими словами, голосом]
+
+Задай мне вопросы, которые нужно прояснить до начала.
+По одному, жди ответа. Когда закончатся — собери SPEC.md.</code>
+    <p><strong>Здесь происходит главное открытие занятия:</strong> агент задаёт вопросы, о которых ученик не думал. «Что делать с дубликатами артикулов?» — а он и не знал, что они там бывают.</p>
+
+    <div class="check"><strong>Пройдено, если:</strong> ученик своими словами объясняет, что делает его будущая программа и чего она не делает.</div>
+  </article>
+
+  <article class="block">
+    <div class="block-head"><h3>3 · Архитектура</h3><span class="time">45 мин</span></div>
+    <span class="goal"><span class="goal-label">Цель</span>Понимает, где что должно лежать, и умеет это проверить тремя вопросами.</span>
+
+    <h4>Пять принципов — 20 минут</h4>
+    <ol>
+      <li><strong>Раздели ввод, логику и вывод.</strong> Поменялся формат файла — правишь одно место.</li>
+      <li><strong>Одна функция — одно дело.</strong> В описании появилось «и» — надо разделить.</li>
+      <li><strong>Настройки отдельно от кода.</strong> Ключи только в <code>.env</code>, <code>.env</code> только в <code>.gitignore</code>.</li>
+      <li><strong>Данные в одном месте.</strong> Лестница: <code>.env</code> → JSON → SQLite → PostgreSQL. Не прыгать через ступени.</li>
+      <li><strong>Границы с внешним миром.</strong> Всё, что ходит в сеть, живёт отдельно и предполагает отказ.</li>
+    </ol>
+
+    <h4>Практика — 25 минут</h4>
+    <code class="cmd">Прочитай SPEC.md. Предложи структуру проекта: какие файлы завести,
+что в каком лежит. Объясни каждый файл одной строкой. Код не пиши.</code>
+    <p>Проверяем предложенное тремя вопросами: сколько файлов править при смене формата входных данных; можно ли проверить расчёт без Excel и интернета; найдётся ли главная формула за минуту через месяц.</p>
+
+    <div class="check"><strong>Пройдено, если:</strong> ученик сам заметил в структуре место, где смешаны ввод и логика.</div>
+  </article>
+
+  <article class="block">
+    <div class="block-head"><h3>4 · Собираем программу</h3><span class="time">55 мин</span></div>
+    <span class="goal"><span class="goal-label">Цель</span>Программа делает то, что написано в SPEC.md, на реальных данных ученика.</span>
+
+    <h4>Как работаем</h4>
+    <code class="cmd">Прочитай SPEC.md и PLAN.md.
+Сделай шаг 1. Только его. Остановись и покажи результат.</code>
+    <p>После каждого шага — три действия, без исключений:</p>
+    <ol>
+      <li><strong>Запустили</strong> и посмотрели своими глазами</li>
+      <li><strong>Спросили, что непонятно:</strong> «Объясни строки 10–25 простыми словами. Где сломается?»</li>
+      <li><strong>Закоммитили</strong></li>
+    </ol>
+
+    <h4>Что обязательно показать</h4>
+    <ul>
+      <li><strong>Как читать ошибку.</strong> Первую же ошибку не чиним сразу — сначала разбираем, что произошло.</li>
+      <li><strong>Как ломается на кривых данных.</strong> Специально подсовываем файл с пустой ячейкой и текстом вместо числа. Программа, которая работает только на идеальных данных, не работает.</li>
+      <li><strong>Правило «не понял — не принял».</strong> Не может объяснить, что делает функция — она ещё не готова.</li>
+    </ul>
+
+    <div class="check"><strong>Пройдено, если:</strong> программа работает на реальных данных, в <code>git log</code> не меньше четырёх коммитов.</div>
+  </article>
+
+  <article class="block">
+    <div class="block-head"><h3>5 · Настройка под себя</h3><span class="time">30 мин</span></div>
+    <span class="goal"><span class="goal-label">Цель</span>Понимает, что окружение настраивается, и делает первую настройку сам.</span>
+
+    <h4>CLAUDE.md — 10 минут</h4>
+    <p>Читаем вместе. Главное: <strong>это живой файл</strong>. Правило, добавленное после своей ошибки, ценнее десяти скопированных из интернета. Ученик добавляет своё правило прямо сейчас — то, что раздражало за сегодня.</p>
+
+    <h4>Первый свой скилл — 10 минут</h4>
+    <p>Разница: <code>CLAUDE.md</code> действует всегда, скилл — только под свою задачу. Делаем скилл <code>my-stack</code> из готового шаблона.</p>
+
+    <h4>context7 — 5 минут</h4>
+    <code class="cmd">claude mcp add context7 -- npx -y @upstash/context7-mcp</code>
+    <p>Модель помнит библиотеки такими, какими они были на момент обучения. Этот сервер подтягивает свежую документацию. Признак, что он нужен: агент пишет код с несуществующими функциями и уверен, что всё правильно.</p>
+
+    <h4>Выбор модели — 5 минут</h4>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Задача</th><th>Модель</th></tr></thead>
+        <tbody>
+          <tr><td>Переименовать, отформатировать, быстрый вопрос</td><td>Быстрая и дешёвая</td></tr>
+          <tr><td>Обычная разработка, отладка</td><td>Средняя</td></tr>
+          <tr><td>Архитектура, сложная логика, запутанный код</td><td>Самая сильная</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px">Правило: начинай со средней, поднимай уровень, когда буксует.</p>
+  </article>
+
+  <article class="block">
+    <div class="block-head"><h3>6 · Итоги и домашнее</h3><span class="time">10 мин</span></div>
+
+    <h4>Домашнее задание на неделю</h4>
+    <ol>
+      <li><strong>Довести программу</strong> до конца плана. Каждый шаг — коммит.</li>
+      <li><strong>Второй проект с нуля:</strong> пять вопросов → SPEC → PLAN → код. Что-то маленькое: скрипт, который наводит порядок в «Загрузках».</li>
+      <li><strong>Записать три правила</strong> в свой <code>CLAUDE.md</code> — из того, что раздражало за неделю.</li>
+      <li><strong>Выложить проект на GitHub.</strong> Проверить, что <code>.env</code> туда не уехал.</li>
+    </ol>
+  </article>
+</section>
+
+<section>
+  <h2>Три мысли, ради которых всё занятие</h2>
+  <div class="ideas">
+    <article class="idea">
+      <h3>Час на продумывание экономит день на переделках</h3>
+      <p>Пять вопросов до первой строки кода. Написанное в SPEC.md стоит десяти исправленных промптов.</p>
+    </article>
+    <article class="idea">
+      <h3>По одному шагу</h3>
+      <p>В большом запросе ошибка находится в конце, в маленьком — сразу. Пять маленьких быстрее одного большого.</p>
+    </article>
+    <article class="idea">
+      <h3>Не понял код — он не готов</h3>
+      <p>Нейросеть уверенно напишет неработающий код и так же уверенно объяснит, почему он правильный.</p>
+    </article>
+  </div>
+</section>
+
+<section>
+  <h2>Материалы занятия</h2>
+  <p class="sub">Папка <code>starter-kit</code> в репозитории. Файлы читает не только человек, но и агент.</p>
+  <div class="files">
+    <div class="file-row"><span class="path">SETUP.md</span><span class="what">Инструкция агенту: настрой мне компьютер. С неё начинается занятие</span></div>
+    <div class="file-row"><span class="path">CLAUDE.md · AGENTS.md</span><span class="what">Правила работы агента во всех проектах</span></div>
+    <div class="file-row"><span class="path">02-методология/01-думать-до-промпта.md</span><span class="what">Главный файл: пять вопросов, SPEC, PLAN</span></div>
+    <div class="file-row"><span class="path">02-методология/02-архитектура-для-начинающих.md</span><span class="what">Пять принципов и три проверочных вопроса</span></div>
+    <div class="file-row"><span class="path">02-методология/03-выбор-стека.md</span><span class="what">Готовые связки под типовые задачи</span></div>
+    <div class="file-row"><span class="path">02-методология/04-промпты-для-агента.md</span><span class="what">Семь приёмов и шаблоны на каждый день</span></div>
+    <div class="file-row"><span class="path">01-инструменты/terminal-mac.md</span><span class="what">Терминал и Git за семь команд</span></div>
+    <div class="file-row"><span class="path">01-инструменты/vscode-mac.md</span><span class="what">Расширения: что ставить, что не нужно на Mac</span></div>
+    <div class="file-row"><span class="path">01-инструменты/mcp-servers.md</span><span class="what">MCP: что это и какие три сервера нужны</span></div>
+    <div class="file-row"><span class="path">03-скиллы/</span><span class="what">Как устроены скиллы, как создать свой, два готовых примера</span></div>
+    <div class="file-row"><span class="path">04-программа/занятие-5-часов.md</span><span class="what">Эта программа в текстовом виде, с заметками преподавателю</span></div>
+    <div class="file-row"><span class="path">05-ресурсы/github-подборки.md</span><span class="what">Куда идти за скиллами и материалами</span></div>
+  </div>
+
+  <div class="note">
+    <p><strong>Чего избегать на занятии:</strong> не показывать много инструментов. Соблазн показать сто скиллов и двадцать MCP-серверов сильный, но результат обратный — ученик решает, что дело в инструментах, а не в мышлении.</p>
+    <p>Если схватывает быстро — пусть ведёт диалог с агентом сам, а преподаватель молчит и вмешивается только в тупике. Ошибка, которую он сделал сам и сам заметил, стоит трёх объяснённых.</p>
+  </div>
+</section>
+
+<footer>
+  Программа первого занятия · <a href="index.html">Установка программ</a> · Обновлено: август 2026
+</footer>
+
+</div>
+</body>
+</html>
